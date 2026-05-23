@@ -1,0 +1,4268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gaurav ❤ Palak — Wedding Invitation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Great+Vibes&family=Jost:wght@300;400;500;600&family=Tangerine:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --peach: #f9c8a8;
+    --blush: #f5b8c4;
+    --lavender: #d9c5f0;
+    --ivory: #fdf6ed;
+    --cream: #fce8d5;
+    --gold: #c9973f;
+    --gold-light: #e8c47a;
+    --rose: #e8889a;
+    --deep: #5a3040;
+    --text: #4a2a38;
+    --muted: #8a6070;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--ivory);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ═══════════════════════════════════════════
+     PAGE NAVIGATOR (right side dots)
+     ═══════════════════════════════════════════ */
+  .page-nav {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .page-nav a {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gold);
+    background: transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  .page-nav a:hover { transform: scale(1.4); }
+  .page-nav a.active {
+    background: var(--gold);
+    box-shadow: 0 0 12px rgba(201, 151, 63, 0.5);
+  }
+
+  /* Mobile adjustments for page navigator */
+  @media (max-width: 768px) {
+    .page-nav {
+      right: 10px;
+      gap: 10px;
+    }
+    .page-nav a {
+      width: 8px;
+      height: 8px;
+    }
+  }
+
+  /* ═══════════════════════════════════════════
+     BOTTOM BOUQUET STRIP (animated, on every page)
+     ═══════════════════════════════════════════ */
+  .bouquet-strip {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 200px;
+    pointer-events: none;
+    z-index: 3;
+    overflow: hidden;
+  }
+  .bouquet-instance {
+    position: absolute;
+    bottom: -30px;
+    width: 220px;
+    height: 220px;
+    background-image: url("https://lh3.googleusercontent.com/d/1_jFNe6luco0rvPpzu0UnxWyasfG7B-18");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    transform-origin: bottom center;
+    opacity: 0.88;
+  }
+  .bouquet-instance.flipped { transform: scaleX(-1); }
+
+  /* Gentle sway — each instance gets a slightly different timing */
+  @keyframes bouquet-sway-a {
+    0%, 100% { transform: rotate(-1.5deg) translateY(0); }
+    50%      { transform: rotate(1.5deg) translateY(-2px); }
+  }
+  @keyframes bouquet-sway-b {
+    0%, 100% { transform: scaleX(-1) rotate(1.5deg) translateY(0); }
+    50%      { transform: scaleX(-1) rotate(-1.5deg) translateY(-2px); }
+  }
+  @keyframes bouquet-breathe {
+    0%, 100% { opacity: 0.85; filter: brightness(1); }
+    50%      { opacity: 0.95; filter: brightness(1.04); }
+  }
+
+  /* Position instances across the strip */
+  .bouquet-instance.b1 { left: -3%;  width: 200px; height: 200px; opacity: 0.7; animation: bouquet-sway-a 7s ease-in-out infinite, bouquet-breathe 5s ease-in-out infinite; }
+  .bouquet-instance.b2 { left: 14%;  width: 230px; height: 230px; opacity: 0.85; animation: bouquet-sway-b 8s ease-in-out infinite, bouquet-breathe 6s ease-in-out infinite; }
+  .bouquet-instance.b3 { left: 38%;  width: 260px; height: 260px; opacity: 0.95; animation: bouquet-sway-a 9s ease-in-out infinite, bouquet-breathe 4.5s ease-in-out infinite; z-index: 4; }
+  .bouquet-instance.b4 { right: 14%; width: 230px; height: 230px; opacity: 0.85; animation: bouquet-sway-b 7.5s ease-in-out infinite, bouquet-breathe 5.5s ease-in-out infinite; }
+  .bouquet-instance.b5 { right: -3%; width: 200px; height: 200px; opacity: 0.7; animation: bouquet-sway-a 8.5s ease-in-out infinite, bouquet-breathe 6.5s ease-in-out infinite; }
+
+  @media (max-width: 700px) {
+    .bouquet-strip { height: 150px; }
+    .bouquet-instance.b1 { width: 130px; height: 130px; left: -8%; }
+    .bouquet-instance.b2 { width: 150px; height: 150px; left: 8%; }
+    .bouquet-instance.b3 { width: 170px; height: 170px; left: 32%; }
+    .bouquet-instance.b4 { width: 150px; height: 150px; right: 8%; }
+    .bouquet-instance.b5 { width: 130px; height: 130px; right: -8%; }
+  }
+
+  /* ═══════════════════════════════════════════
+     SHARED PAGE STRUCTURE
+     ═══════════════════════════════════════════ */
+
+  .page {
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 6vw, 5rem) clamp(7rem, 13vw, 10rem);
+    overflow: hidden;
+  }
+
+  .section-label {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.38em;
+    font-size: 0.72rem;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    text-align: center;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-weight: 300;
+    color: var(--deep);
+    line-height: 1.15;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--rose);
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+    margin: 2rem auto;
+    max-width: 400px;
+  }
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-light), transparent);
+  }
+  .divider-icon { color: var(--gold); font-size: 1.2rem; }
+
+  /* ═══════════════════════════════════════════
+     PAGE 1 — COVER
+     ═══════════════════════════════════════════ */
+  #cover {
+    background: radial-gradient(ellipse 120% 100% at 50% 0%, #fce8d5 0%, #fdf0f5 40%, #f0e8fa 80%, #fdf6ed 100%);
+  }
+
+  /* Animated petals — global, fixed over viewport */
+  .petals {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 5;
+  }
+  .petal {
+    position: absolute;
+    border-radius: 50% 0 50% 0;
+    opacity: 0;
+    animation: floatPetal linear infinite;
+  }
+  @keyframes floatPetal {
+    0%   { transform: translateY(-60px) rotate(0deg) scale(0.8); opacity: 0; }
+    10%  { opacity: 0.55; }
+    90%  { opacity: 0.4; }
+    100% { transform: translateY(110vh) rotate(540deg) scale(1.1); opacity: 0; }
+  }
+
+  .corner-floral {
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    pointer-events: none;
+    opacity: 0.6;
+    z-index: 1;
+  }
+  .corner-floral.tl { top: -10px; left: -10px; }
+  .corner-floral.tr { top: -10px; right: -10px; transform: scaleX(-1); }
+  .corner-floral.bl { bottom: -10px; left: -10px; transform: scaleY(-1); }
+  .corner-floral.br { bottom: -10px; right: -10px; transform: scale(-1, -1); }
+
+  .cover-content {
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    animation: heroReveal 1.6s cubic-bezier(0.16,1,0.3,1) both;
+  }
+  @keyframes heroReveal {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .cover-tagline {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.35em;
+    font-size: clamp(0.65rem, 2vw, 0.85rem);
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    animation: heroReveal 1.6s 0.2s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  .cover-names {
+    font-family: 'Tangerine', cursive;
+    font-weight: 700;
+    color: var(--deep);
+    line-height: 0.85;
+    font-size: clamp(5rem, 16vw, 9rem);
+    margin: -0.2rem 0;
+    animation: heroReveal 1.6s 0.35s cubic-bezier(0.16,1,0.3,1) both;
+  }
+  .cover-amp {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 600;
+    color: var(--rose);
+    font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+    letter-spacing: 0.3em;
+    margin: 0.6rem 0;
+    animation: heroReveal 1.6s 0.45s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  .cover-date {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: var(--muted);
+    margin-top: 1.5rem;
+    letter-spacing: 0.08em;
+    animation: heroReveal 1.6s 0.6s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  /* Countdown */
+  .countdown {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    max-width: 480px;
+    margin: 2.5rem auto 0;
+    animation: heroReveal 1.6s 0.75s cubic-bezier(0.16,1,0.3,1) both;
+  }
+  .count-unit {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(201, 151, 63, 0.2);
+    border-radius: 14px;
+    padding: 14px 8px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(180, 130, 160, 0.1);
+  }
+  .count-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    color: var(--deep);
+    display: block;
+    line-height: 1;
+  }
+  .count-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 6px;
+    display: block;
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--gold);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    text-align: center;
+    opacity: 0.75;
+    animation: scrollPulse 2.4s ease-in-out infinite;
+    z-index: 10;
+  }
+  .scroll-cue span {
+    display: block;
+    margin-top: 8px;
+    font-size: 1.1rem;
+    letter-spacing: 0;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; transform: translate(-50%, 0); }
+    50% { opacity: 0.9; transform: translate(-50%, 6px); }
+  }
+
+  /* Mobile adjustments for hero section */
+  @media (max-width: 768px) {
+    .corner-floral {
+      width: 150px;
+      height: 150px;
+      opacity: 0.4;
+    }
+    .countdown {
+      gap: 10px;
+      max-width: 100%;
+      padding: 0 10px;
+    }
+    .count-unit {
+      padding: 10px 6px;
+      border-radius: 10px;
+    }
+    .count-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+    }
+    .scroll-cue {
+      bottom: 20px;
+      font-size: 0.6rem;
+    }
+  }
+
+  /* ═══════════════════════════════════════════
+     PAGE 2 — STORY (Formal Invitation)
+     ═══════════════════════════════════════════ */
+  #story {
+    background: linear-gradient(180deg, var(--ivory) 0%, #fdf0f5 100%);
+  }
+  .invitation-content {
+    text-align: center;
+    max-width: 640px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .ganesha-block {
+    margin-bottom: 1.5rem;
+  }
+  .ganesha-img {
+    width: 100px;
+    height: auto;
+    margin: 0 auto 1rem;
+    display: block;
+    opacity: 0.75;
+    filter: drop-shadow(0 4px 12px rgba(180, 130, 160, 0.2));
+  }
+  .ganesha-mantra {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    font-style: italic;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(201, 151, 63, 0.3);
+    display: inline-block;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  .blessing-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-variant: small-caps;
+    letter-spacing: 0.2em;
+    font-size: 0.95rem;
+    color: var(--deep);
+    margin-top: 3rem;
+    font-weight: 500;
+  }
+  .blessing-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--rose);
+    margin-top: 0.3rem;
+  }
+  .hosts-line {
+    font-family: 'Cormorant Garamond', serif;
+    font-variant: small-caps;
+    letter-spacing: 0.12em;
+    font-size: clamp(1rem, 2.2vw, 1.25rem);
+    color: var(--deep);
+    margin-top: 3rem;
+    font-weight: 500;
+  }
+  .seek-line {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    color: var(--muted);
+    margin: 0.6rem auto 0;
+    line-height: 1.7;
+    max-width: 480px;
+  }
+  .invite-name {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.4rem, 6.5vw, 3.8rem);
+    color: var(--deep);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    margin-top: 1.8rem;
+    line-height: 1.1;
+  }
+  .invite-name.second {
+    margin-top: 0.4rem;
+  }
+  .invite-parents {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    color: var(--muted);
+    margin-top: 0.5rem;
+  }
+  .with-divider {
+    font-family: 'Cormorant Garamond', serif;
+    font-variant: small-caps;
+    letter-spacing: 0.4em;
+    font-size: 1.15rem;
+    color: var(--gold);
+    margin: 1rem 0 0;
+    font-weight: 700;
+  }
+
+  /* ═══════════════════════════════════════════
+     PAGE 3 — COUPLE PHOTO
+     ═══════════════════════════════════════════ */
+  #couple-photo {
+    background: linear-gradient(180deg, #fdf0f5 0%, #fdf6ed 100%);
+    padding: clamp(4rem, 8vw, 6rem) clamp(1.5rem, 6vw, 5rem) 0;
+    justify-content: center;
+    gap: clamp(2rem, 5vw, 3rem);
+  }
+  .haldi-block {
+    position: relative;
+    text-align: center;
+    max-width: 460px;
+    width: 100%;
+    padding: clamp(3.5rem, 8vw, 4.5rem) clamp(2.5rem, 7vw, 4rem);
+    background:
+      radial-gradient(ellipse at top, rgba(255, 245, 220, 0.85) 0%, rgba(253, 240, 245, 0.7) 60%, rgba(255, 255, 255, 0.6) 100%);
+    border-radius: 4px;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.9) inset,
+      0 20px 50px -20px rgba(90, 48, 64, 0.25),
+      0 8px 20px -10px rgba(201, 151, 63, 0.15);
+    margin-top: clamp(2rem, 6vw, 4rem);
+    overflow: visible;
+  }
+
+  /* Outer thick gold frame */
+  .haldi-block::before {
+    content: '';
+    position: absolute;
+    inset: 10px;
+    border: 1.5px solid rgba(201, 151, 63, 0.55);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+  /* Middle hairline frame */
+  .haldi-block::after {
+    content: '';
+    position: absolute;
+    inset: 14px;
+    border: 0.5px solid rgba(201, 151, 63, 0.3);
+    border-radius: 1px;
+    pointer-events: none;
+  }
+
+  /* Innermost dashed frame */
+  .haldi-inner-frame {
+    position: absolute;
+    inset: 22px;
+    border: 1px dashed rgba(201, 151, 63, 0.35);
+    border-radius: 1px;
+    pointer-events: none;
+  }
+
+  /* Decorative corner floral flourishes */
+  .haldi-corner {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    pointer-events: none;
+  }
+  .haldi-corner.tl { top: -4px; left: -4px; }
+  .haldi-corner.tr { top: -4px; right: -4px; transform: scaleX(-1); }
+  .haldi-corner.bl { bottom: -4px; left: -4px; transform: scaleY(-1); }
+  .haldi-corner.br { bottom: -4px; right: -4px; transform: scale(-1, -1); }
+
+  /* Side floral medallions on each edge midpoint */
+  .haldi-side {
+    position: absolute;
+    pointer-events: none;
+  }
+  .haldi-side.top    { top: 0;       left: 50%; transform: translate(-50%, -8px); }
+  .haldi-side.bottom { bottom: 0;    left: 50%; transform: translate(-50%, 8px) scaleY(-1); }
+  .haldi-side.left   { left: 0;      top: 50%;  transform: translate(-8px, -50%) rotate(-90deg); }
+  .haldi-side.right  { right: 0;     top: 50%;  transform: translate(8px, -50%) rotate(90deg); }
+
+  .haldi-flourish {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  .haldi-flourish .line {
+    width: 36px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.7;
+  }
+  .haldi-flourish .ornament {
+    color: var(--gold);
+    font-size: 0.7rem;
+    opacity: 0.7;
+    letter-spacing: 0.1em;
+  }
+
+  .haldi-icon {
+    font-size: 2.2rem;
+    margin-bottom: 0.4rem;
+    line-height: 1;
+    filter: drop-shadow(0 2px 4px rgba(201, 151, 63, 0.2));
+  }
+  .haldi-presents {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+  .haldi-name {
+    font-family: 'Tangerine', 'Cormorant Garamond', cursive;
+    font-size: clamp(2.8rem, 8vw, 4rem);
+    font-weight: 700;
+    color: var(--deep);
+    letter-spacing: 0.02em;
+    line-height: 1;
+    margin: 0.3rem 0 0.4rem;
+  }
+  .haldi-ceremony-sub {
+    font-family: 'Cinzel', 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.4rem;
+    font-weight: 500;
+  }
+  .haldi-time {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.4vw, 1.2rem);
+    color: var(--deep);
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  .haldi-time .dot {
+    color: var(--gold);
+    margin: 0 0.5rem;
+    font-size: 0.6em;
+    vertical-align: middle;
+  }
+  .haldi-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.95rem, 2.1vw, 1.1rem);
+    color: var(--muted);
+    line-height: 1.5;
+    margin-top: 1rem;
+  }
+  .haldi-bar {
+    display: none;
+  }
+
+  /* ═══════════════════════════════════════════
+     PAGE 4 — SANGEET (evening palette)
+     ═══════════════════════════════════════════ */
+  #sangeet-photo {
+    background: linear-gradient(180deg, #2d1b3a 0%, #3a2440 35%, #4a2c4a 65%, #5a3554 100%);
+    padding: clamp(3rem, 6vw, 4rem) clamp(1.5rem, 6vw, 5rem) 0;
+    justify-content: flex-start;
+    gap: clamp(1.5rem, 4vw, 2.5rem);
+    position: relative;
+  }
+  /* Soft string-light shimmer at top */
+  #sangeet-photo::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 35%;
+    background:
+      radial-gradient(ellipse 80% 60% at 15% 20%, rgba(255, 220, 150, 0.18), transparent 70%),
+      radial-gradient(ellipse 60% 50% at 80% 25%, rgba(255, 220, 150, 0.15), transparent 70%),
+      radial-gradient(ellipse 70% 60% at 50% 15%, rgba(255, 200, 120, 0.12), transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .sangeet-block {
+    position: relative;
+    text-align: center;
+    max-width: 460px;
+    width: 100%;
+    padding: clamp(3.5rem, 8vw, 4.5rem) clamp(2.5rem, 7vw, 4rem);
+    background:
+      radial-gradient(ellipse at top, rgba(60, 35, 70, 0.85) 0%, rgba(45, 27, 58, 0.75) 60%, rgba(35, 20, 50, 0.7) 100%);
+    border-radius: 4px;
+    box-shadow:
+      0 1px 0 rgba(255, 220, 150, 0.15) inset,
+      0 20px 50px -20px rgba(0, 0, 0, 0.5),
+      0 8px 20px -10px rgba(255, 200, 120, 0.15);
+    margin-top: 0;
+    overflow: visible;
+    z-index: 2;
+  }
+  .sangeet-block::before {
+    content: '';
+    position: absolute;
+    inset: 10px;
+    border: 1.5px solid rgba(218, 165, 80, 0.6);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+  .sangeet-block::after {
+    content: '';
+    position: absolute;
+    inset: 14px;
+    border: 0.5px solid rgba(218, 165, 80, 0.35);
+    border-radius: 1px;
+    pointer-events: none;
+  }
+  .sangeet-inner-frame {
+    position: absolute;
+    inset: 22px;
+    border: 1px dashed rgba(218, 165, 80, 0.4);
+    border-radius: 1px;
+    pointer-events: none;
+  }
+  .sangeet-corner {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    pointer-events: none;
+  }
+  .sangeet-corner.tl { top: -4px; left: -4px; }
+  .sangeet-corner.tr { top: -4px; right: -4px; transform: scaleX(-1); }
+  .sangeet-corner.bl { bottom: -4px; left: -4px; transform: scaleY(-1); }
+  .sangeet-corner.br { bottom: -4px; right: -4px; transform: scale(-1, -1); }
+  .sangeet-side {
+    position: absolute;
+    pointer-events: none;
+  }
+  .sangeet-side.top    { top: 0;    left: 50%; transform: translate(-50%, -8px); }
+  .sangeet-side.bottom { bottom: 0; left: 50%; transform: translate(-50%, 8px) scaleY(-1); }
+  .sangeet-side.left   { left: 0;   top: 50%;  transform: translate(-8px, -50%) rotate(-90deg); }
+  .sangeet-side.right  { right: 0;  top: 50%;  transform: translate(8px, -50%) rotate(90deg); }
+  .sangeet-presents {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: #daa550;
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+  .sangeet-name {
+    font-family: 'Tangerine', 'Cormorant Garamond', cursive;
+    font-size: clamp(2.2rem, 6.5vw, 3.2rem);
+    font-weight: 700;
+    color: #f5e3b8;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    margin: 0.3rem 0 1.1rem;
+    white-space: nowrap;
+  }
+  .sangeet-slash {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 0.55em;
+    color: #daa550;
+    margin: 0 -0.05em;
+    vertical-align: 0.15em;
+    opacity: 0.85;
+  }
+  .sangeet-ceremony-sub {
+    font-family: 'Cinzel', 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: #b89968;
+    margin: 0.4rem 0 1.4rem;
+    font-weight: 500;
+  }
+  .sangeet-flourish {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  .sangeet-flourish .line {
+    width: 36px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #daa550, transparent);
+    opacity: 0.7;
+  }
+  .sangeet-flourish .ornament {
+    color: #daa550;
+    font-size: 0.7rem;
+    opacity: 0.85;
+    letter-spacing: 0.1em;
+  }
+  .sangeet-time {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.4vw, 1.2rem);
+    color: #f5e3b8;
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  .sangeet-time .dot {
+    color: #daa550;
+    margin: 0 0.5rem;
+    font-size: 0.6em;
+    vertical-align: middle;
+  }
+  .sangeet-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.95rem, 2.1vw, 1.1rem);
+    color: #c9a878;
+    line-height: 1.5;
+    margin-top: 1rem;
+  }
+  .sangeet-frame {
+    position: relative;
+    max-width: 320px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto;
+    margin-bottom: 0;
+    z-index: 2;
+  }
+  .sangeet-img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    display: block;
+    position: relative;
+    background: transparent;
+    filter:
+      drop-shadow(0 0 24px rgba(255, 200, 120, 0.25))
+      drop-shadow(0 18px 32px rgba(0, 0, 0, 0.4))
+      drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+  }
+
+
+  /* ═══════════════════════════════════════════
+     PAGE 4B — RECEPTION (evening reception palette)
+     ═══════════════════════════════════════════ */
+  #reception-photo {
+    background: linear-gradient(180deg, #4a2836 0%, #613347 38%, #74415b 68%, #86526e 100%);
+    padding: clamp(3rem, 6vw, 4rem) clamp(1.5rem, 6vw, 5rem) 0;
+    justify-content: flex-start;
+    gap: clamp(1.5rem, 4vw, 2.5rem);
+    position: relative;
+  }
+  #reception-photo::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 42%;
+    background:
+      radial-gradient(ellipse 78% 56% at 18% 18%, rgba(255, 218, 170, 0.18), transparent 70%),
+      radial-gradient(ellipse 60% 48% at 82% 22%, rgba(255, 210, 150, 0.14), transparent 72%),
+      radial-gradient(ellipse 74% 54% at 50% 14%, rgba(255, 235, 205, 0.10), transparent 72%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  #reception-photo .haldi-block {
+    background:
+      radial-gradient(ellipse at top, rgba(95, 45, 65, 0.88) 0%, rgba(72, 38, 55, 0.80) 58%, rgba(54, 27, 44, 0.78) 100%);
+    box-shadow:
+      0 1px 0 rgba(255, 231, 196, 0.16) inset,
+      0 20px 50px -20px rgba(0, 0, 0, 0.5),
+      0 8px 20px -10px rgba(255, 199, 136, 0.15);
+    margin-top: 0;
+    z-index: 2;
+  }
+  #reception-photo .haldi-block::before {
+    border-color: rgba(223, 180, 117, 0.62);
+  }
+  #reception-photo .haldi-block::after {
+    border-color: rgba(223, 180, 117, 0.34);
+  }
+  #reception-photo .haldi-inner-frame {
+    border-color: rgba(223, 180, 117, 0.28);
+  }
+  #reception-photo .haldi-name,
+  #reception-photo .haldi-time {
+    color: #f7e2c2;
+  }
+  #reception-photo .haldi-ceremony-sub {
+    color: #dcb68d;
+  }
+  #reception-photo .haldi-desc {
+    color: #e5c5a2;
+  }
+  #reception-photo .haldi-presents,
+  #reception-photo .haldi-flourish .ornament,
+  #reception-photo .haldi-time .dot {
+    color: #e3b66d;
+  }
+  #reception-photo .haldi-flourish .line {
+    background: linear-gradient(90deg, transparent, #e3b66d, transparent);
+    opacity: 0.75;
+  }
+  #reception-photo .couple-img {
+    filter:
+      drop-shadow(0 0 24px rgba(255, 210, 150, 0.14))
+      drop-shadow(0 18px 32px rgba(0, 0, 0, 0.34))
+      drop-shadow(0 4px 10px rgba(0, 0, 0, 0.24));
+  }
+  .couple-frame {
+    position: relative;
+    max-width: 300px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0;
+  }
+  .couple-img {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    display: block;
+    position: relative;
+    z-index: 2;
+    background: transparent;
+    filter: drop-shadow(0 18px 32px rgba(90, 48, 64, 0.18))
+            drop-shadow(0 4px 10px rgba(90, 48, 64, 0.12));
+  }
+  .couple-img-placeholder {
+    width: 100%;
+    aspect-ratio: 3/4;
+    border-radius: 20px;
+    position: relative;
+    z-index: 2;
+    display: block;
+  }
+  .couple-img-placeholder {
+    background: linear-gradient(135deg, #f4dcd0 0%, #e8d4e8 50%, #d9c5f0 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-style: italic;
+    text-align: center;
+    padding: 2rem;
+  }
+  .couple-img-placeholder span {
+    font-size: 3rem;
+    color: var(--rose);
+    margin-bottom: 1rem;
+    opacity: 0.6;
+  }
+
+  /* ─── Wedding & Reception pages: anchor couple image to bottom ─── */
+  section.page#wedding-photo,
+  section.page#reception-photo {
+    justify-content: flex-start;
+    padding-bottom: 0 !important;
+  }
+  section.page#wedding-photo .couple-frame,
+  section.page#reception-photo .couple-frame {
+    margin-top: auto;
+    margin-bottom: 0;
+    max-width: 100%;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    min-height: 0;
+  }
+  section.page#wedding-photo .couple-img,
+  section.page#reception-photo .couple-img {
+    width: 100% !important;
+    max-width: 480px !important;
+    height: auto;
+    max-height: none !important;
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
+    object-position: bottom center;
+  }
+
+  .couple-caption {
+    text-align: center;
+    margin-top: 1.6rem;
+    position: relative;
+    z-index: 2;
+  }
+  .couple-caption-names {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 500;
+    color: var(--deep);
+  }
+  .couple-caption-sub {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-top: 0.4rem;
+  }
+
+  /* ═══════════════════════════════════════════
+     PAGE 4 — SCHEDULE / EVENTS
+     ═══════════════════════════════════════════ */
+  #events {
+    background: #fdf6ed;
+  }
+  .day-block {
+    max-width: 720px;
+    width: 100%;
+    margin: 1.5rem auto;
+  }
+  .day-header {
+    text-align: center;
+    margin: 2.5rem 0 1.5rem;
+  }
+  .day-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    color: var(--rose);
+    font-weight: 500;
+  }
+  .day-date {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 0.4rem;
+  }
+
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1rem;
+  }
+  .event-card {
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(201, 151, 63, 0.18);
+    border-radius: 20px;
+    padding: 1.8rem 1.4rem;
+    text-align: center;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 24px rgba(200, 140, 160, 0.1);
+    transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .event-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(249, 200, 168, 0.25) 0%, rgba(217, 197, 240, 0.2) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .event-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(200, 140, 160, 0.22); }
+  .event-card:hover::before { opacity: 1; }
+
+  .event-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--peach), var(--blush));
+    border-radius: 50%;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 14px rgba(232, 136, 154, 0.3);
+  }
+  .event-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--deep);
+    margin-bottom: 0.5rem;
+  }
+  .event-time {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .event-desc {
+    margin-top: 0.7rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.5;
+  }
+  .gold-bar {
+    display: block;
+    width: 32px;
+    height: 2px;
+    background: linear-gradient(to right, var(--gold), var(--gold-light));
+    margin: 0.9rem auto 0;
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+  .event-card:hover .gold-bar { width: 56px; }
+
+  /* ═══════════════════════════════════════════
+     PAGE 5 — VENUE
+     ═══════════════════════════════════════════ */
+  #venue {
+    background: linear-gradient(160deg, #fdf0f5 0%, #f0e8fa 60%, #fdf6ed 100%);
+  }
+  .venue-box {
+    max-width: 720px;
+    width: 100%;
+    margin: 1.5rem auto;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(201, 151, 63, 0.2);
+    border-radius: 28px;
+    padding: clamp(2rem, 5vw, 3.5rem);
+    box-shadow: 0 8px 40px rgba(180, 130, 160, 0.14);
+    text-align: center;
+  }
+  .venue-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 500;
+    color: var(--deep);
+    margin-bottom: 0.6rem;
+  }
+  .venue-location {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .venue-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2.2vw, 1.15rem);
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 480px;
+    margin: 0 auto 1.5rem;
+  }
+  .venue-map {
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(135deg, #f5e8f0 0%, #e8ddf5 100%);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px dashed rgba(201, 151, 63, 0.35);
+    color: var(--muted);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    margin-top: 1rem;
+  }
+
+  .venue-map-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    margin-top: 1rem;
+  }
+  .venue-map-link .venue-map {
+    margin-top: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .venue-map-link:hover .venue-map,
+  .venue-map-link:focus-visible .venue-map {
+    transform: translateY(-3px);
+    border-color: rgba(201, 151, 63, 0.65);
+    box-shadow: 0 14px 34px rgba(180, 130, 160, 0.18);
+  }
+  .map-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.45rem;
+    padding: 0.58rem 1.15rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    color: #fff;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    box-shadow: 0 8px 22px rgba(201, 151, 63, 0.28);
+  }
+  .map-pin { font-size: 1.8rem; animation: mapBounce 2s ease-in-out infinite; }
+  @keyframes mapBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+  /* ═══════════════════════════════════════════
+     PAGE 6 — RSVP
+     ═══════════════════════════════════════════ */
+  #rsvp {
+    background: linear-gradient(180deg, #fdf6ed 0%, #fce8d5 50%, #fdf0f5 100%);
+  }
+  .rsvp-form-container {
+    max-width: 540px;
+    width: 100%;
+    margin: 1.5rem auto;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(201, 151, 63, 0.2);
+    border-radius: 24px;
+    padding: clamp(2rem, 5vw, 3rem);
+    box-shadow: 0 8px 32px rgba(180, 130, 160, 0.14);
+  }
+  .rsvp-form label {
+    display: block;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    margin-top: 18px;
+  }
+  .rsvp-form label:first-child { margin-top: 0; }
+  .rsvp-form input,
+  .rsvp-form select,
+  .rsvp-form textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid rgba(201, 151, 63, 0.25);
+    background: rgba(253, 246, 237, 0.8);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    color: var(--text);
+    border-radius: 12px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .rsvp-form input:focus,
+  .rsvp-form select:focus,
+  .rsvp-form textarea:focus {
+    border-color: var(--rose);
+    box-shadow: 0 0 0 3px rgba(232, 136, 154, 0.15);
+  }
+  .rsvp-form textarea { resize: vertical; min-height: 70px; }
+  .rsvp-checks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .rsvp-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: rgba(253, 246, 237, 0.5);
+    border: 1px solid rgba(201, 151, 63, 0.15);
+    border-radius: 10px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .rsvp-check:hover { background: rgba(245, 184, 196, 0.15); border-color: var(--rose); }
+  .rsvp-check input[type="checkbox"] { width: auto; margin: 0; accent-color: var(--rose); }
+
+  .submit-btn {
+    display: block;
+    width: 100%;
+    margin-top: 1.8rem;
+    padding: 1rem 2.5rem;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    color: #fff;
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 0.85rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 28px rgba(201, 151, 63, 0.35);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 36px rgba(201, 151, 63, 0.45);
+  }
+  .submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .thank-you {
+    display: none;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 1rem;
+  }
+  .thank-you.show {
+    display: block;
+    animation: heroReveal 0.6s cubic-bezier(0.16,1,0.3,1) both;
+  }
+  .thank-you-icon {
+    font-size: 2.5rem;
+    color: var(--rose);
+    margin-bottom: 1rem;
+  }
+  .thank-you-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--deep);
+    line-height: 1.7;
+  }
+
+  /* ═══════════════════════════════════════════
+     PAGE 7 — CLOSING
+     ═══════════════════════════════════════════ */
+  #closing {
+    background: linear-gradient(180deg, #fdf0f5 0%, #fdf6ed 100%);
+  }
+  .closing-message {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.15rem, 2.8vw, 1.5rem);
+    color: var(--text);
+    max-width: 600px;
+    margin: 1.5rem auto;
+    line-height: 1.9;
+    opacity: 0.92;
+    text-align: center;
+  }
+  .closing-names {
+    font-family: 'Tangerine', cursive;
+    font-weight: 700;
+    font-size: clamp(3rem, 8vw, 4.5rem);
+    color: var(--deep);
+    margin: 1.5rem 0 0.3rem;
+    text-align: center;
+  }
+  .family-line {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+
+  /* ═══════════════════════════════════════════
+     PAGE 6B — FAMILY WELCOME
+     ═══════════════════════════════════════════ */
+  #family-welcome {
+    background: linear-gradient(180deg, #fff7f1 0%, #fdf0f5 48%, #f9ecf2 100%);
+    position: relative;
+    justify-content: flex-start;
+    gap: clamp(1rem, 2.6vw, 1.7rem);
+    padding-top: clamp(3.2rem, 7vw, 5rem);
+    padding-bottom: clamp(2.2rem, 5vw, 3.4rem);
+  }
+  #family-welcome::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 38% 28% at 14% 18%, rgba(255, 214, 173, 0.24), transparent 72%),
+      radial-gradient(ellipse 34% 26% at 84% 16%, rgba(232, 196, 122, 0.18), transparent 72%),
+      radial-gradient(ellipse 40% 30% at 50% 86%, rgba(217, 197, 240, 0.14), transparent 74%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  #family-welcome > * {
+    position: relative;
+    z-index: 1;
+  }
+  .family-welcome-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+    color: var(--text);
+    max-width: 760px;
+    line-height: 1.75;
+    text-align: center;
+    margin: 0 auto;
+    opacity: 0.92;
+  }
+  .family-welcome-art {
+    width: min(100%, 1300px);
+    margin: 0.9rem auto 0;
+    display: flex;
+    justify-content: center;
+  }
+  .family-welcome-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter:
+      drop-shadow(0 12px 24px rgba(90, 48, 64, 0.10))
+      drop-shadow(0 26px 56px rgba(90, 48, 64, 0.12));
+  }
+  .family-welcome-caption {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+
+  
+  /* ═══════════════════════════════════════════
+     PAGE — FAMILY INVITATION
+     ═══════════════════════════════════════════ */
+  #family-invites {
+    background: linear-gradient(180deg, #fff9f1 0%, #fdf0f5 45%, #f9edf6 100%);
+    position: relative;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding-top: clamp(3rem, 7vw, 4.8rem);
+    padding-bottom: clamp(2rem, 5vw, 3rem);
+  }
+  #family-invites::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 40% 24% at 12% 14%, rgba(255, 216, 178, 0.24), transparent 72%),
+      radial-gradient(ellipse 34% 24% at 88% 12%, rgba(235, 196, 140, 0.18), transparent 72%),
+      radial-gradient(ellipse 44% 28% at 50% 88%, rgba(217, 197, 240, 0.14), transparent 74%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  #family-invites > * {
+    position: relative;
+    z-index: 1;
+  }
+  .family-invites-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.8vw, 1.45rem);
+    color: var(--muted);
+    text-align: center;
+    margin-top: -1rem;
+    margin-bottom: 0.35rem;
+  }
+  .family-invites-flourish {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    margin: 0.4rem auto 0.8rem;
+    max-width: 320px;
+  }
+  .family-invites-flourish .line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201, 151, 63, 0.75), transparent);
+  }
+  .family-invites-flourish .icon {
+    color: var(--gold);
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+  .family-invites-intro {
+    max-width: 760px;
+    margin: 0 auto 0.5rem;
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.02rem, 2.6vw, 1.28rem);
+    line-height: 1.75;
+    color: var(--text);
+    opacity: 0.94;
+  }
+  .family-invites-grid {
+    width: min(100%, 860px);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 0.4rem;
+  }
+  .family-group-card,
+  .family-love-card {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.90) 0%, rgba(255,250,247,0.82) 100%);
+    border: 1px solid rgba(201, 151, 63, 0.22);
+    border-radius: 22px;
+    padding: 1.15rem 1rem 1.2rem;
+    box-shadow:
+      0 16px 34px rgba(90, 48, 64, 0.08),
+      inset 0 1px 0 rgba(255,255,255,0.9);
+    backdrop-filter: blur(4px);
+  }
+  .family-group-card.full {
+    grid-column: 1 / -1;
+  }
+  .family-invites-heading {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.9rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(201,151,63,0.12), rgba(201,151,63,0.20));
+    font-family: 'Cinzel', 'Cormorant Garamond', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #9b6a1a;
+    text-align: center;
+    width: fit-content;
+  }
+  .family-invites-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.4rem;
+  }
+  .family-invites-list li {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.98rem, 2.3vw, 1.16rem);
+    color: var(--deep);
+    text-align: center;
+    line-height: 1.55;
+  }
+  .family-invites-list.compact li {
+    line-height: 1.48;
+  }
+  .family-love-card {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  .family-love-label {
+    font-family: 'Cinzel', 'Cormorant Garamond', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.45rem;
+  }
+  .family-invites-love {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.08rem, 2.5vw, 1.28rem);
+    color: var(--text);
+    text-align: center;
+    line-height: 1.7;
+  }
+
+  .family-invites-ending {
+    width: min(100%, 980px);
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.55rem;
+  }
+  .family-invites-art {
+    width: min(100%, 980px);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: 0.2rem;
+  }
+  .family-invites-art img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter:
+      drop-shadow(0 10px 24px rgba(90, 48, 64, 0.08))
+      drop-shadow(0 24px 48px rgba(90, 48, 64, 0.12));
+  }
+  .family-invites-caption {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.74rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-align: center;
+    margin-top: 0.2rem;
+  }
+  @media (max-width: 700px) {
+    .family-invites-grid {
+      grid-template-columns: 1fr;
+    }
+    .family-group-card.full,
+    .family-love-card {
+      grid-column: auto;
+    }
+    .family-invites-art {
+      margin-top: 0.15rem;
+    }
+  }
+
+
+  /* ═══════════════════════════════════════════
+     REVEAL ANIMATION
+     ═══════════════════════════════════════════ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal.d1 { transition-delay: 0.1s; }
+  .reveal.d2 { transition-delay: 0.25s; }
+  .reveal.d3 { transition-delay: 0.4s; }
+  .reveal.d4 { transition-delay: 0.55s; }
+
+  /* ═══════════════════════════════════════════
+     COMPREHENSIVE MOBILE RESPONSIVE STYLES
+     ═══════════════════════════════════════════ */
+  
+  /* Tablet and below */
+  @media (max-width: 900px) {
+    .page {
+      padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 4vw, 2.5rem) clamp(5rem, 10vw, 8rem);
+    }
+    
+    .section-title {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+    }
+    
+    .events-grid {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    
+    .event-card {
+      padding: 1.5rem 1.2rem;
+    }
+    
+    .haldi-block,
+    .sangeet-block {
+      padding: clamp(2.5rem, 6vw, 3.5rem) clamp(1.8rem, 5vw, 3rem);
+    }
+    
+    .venue-box,
+    .rsvp-form-container {
+      padding: clamp(1.5rem, 4vw, 2.5rem);
+    }
+  }
+  
+  /* Mobile devices */
+  @media (max-width: 600px) {
+    body {
+      font-size: 15px;
+    }
+    
+    .page {
+      padding: 2rem 1rem 6rem;
+    }
+    
+    .corner-floral { 
+      width: 120px; 
+      height: 120px;
+      opacity: 0.3;
+    }
+    
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      margin-bottom: 1rem;
+    }
+    
+    .section-title {
+      font-size: clamp(1.6rem, 8vw, 2.2rem);
+      margin-bottom: 1.5rem;
+    }
+    
+    .divider {
+      max-width: 280px;
+      margin: 1.5rem auto;
+    }
+    
+    /* Hero / Cover Page */
+    .cover-tagline {
+      font-size: 0.6rem;
+      letter-spacing: 0.28em;
+    }
+    
+    .cover-names {
+      font-size: clamp(3.5rem, 18vw, 7rem);
+    }
+    
+    .cover-amp {
+      font-size: clamp(1.4rem, 6vw, 2rem);
+      letter-spacing: 0.25em;
+      margin: 0.4rem 0;
+    }
+    
+    .cover-date {
+      font-size: clamp(0.9rem, 4vw, 1.2rem);
+      margin-top: 1rem;
+    }
+    
+    .countdown { 
+      gap: 8px; 
+      max-width: 100%;
+      padding: 0 5px;
+      margin: 2rem auto 0;
+    }
+    
+    .count-unit { 
+      padding: 10px 4px;
+      border-radius: 10px;
+    }
+    
+    .count-num {
+      font-size: clamp(1.3rem, 5vw, 1.8rem);
+    }
+    
+    .count-label {
+      font-size: 0.5rem;
+      letter-spacing: 0.18em;
+      margin-top: 4px;
+    }
+    
+    /* Story / Invitation */
+    .invitation-content {
+      padding: 0 0.5rem;
+    }
+    
+    .ganesha-img {
+      width: 80px;
+      margin-bottom: 0.8rem;
+    }
+    
+    .ganesha-mantra {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      padding: 0.4rem 1rem;
+    }
+    
+    .blessing-label {
+      font-size: 0.85rem;
+      margin-top: 2rem;
+    }
+    
+    .blessing-name {
+      font-size: 1rem;
+    }
+    
+    .hosts-line {
+      font-size: clamp(0.9rem, 3vw, 1.1rem);
+      margin-top: 2rem;
+    }
+    
+    .seek-line {
+      font-size: clamp(0.85rem, 3vw, 1rem);
+      max-width: 100%;
+    }
+    
+    .invite-name {
+      font-size: clamp(2rem, 9vw, 3.2rem);
+      margin-top: 1.5rem;
+    }
+    
+    .invite-parents {
+      font-size: clamp(0.85rem, 3vw, 1rem);
+    }
+    
+    .with-divider {
+      font-size: 1rem;
+      letter-spacing: 0.3em;
+    }
+    
+    /* Photo Blocks */
+    .haldi-block,
+    .sangeet-block {
+      padding: 2.5rem 1.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    .haldi-presents,
+    .sangeet-presents {
+      font-size: 0.55rem;
+      letter-spacing: 0.35em;
+    }
+    
+    .haldi-event,
+    .sangeet-name {
+      font-size: clamp(1.8rem, 8vw, 2.8rem);
+      white-space: normal;
+    }
+    
+    .haldi-sub,
+    .sangeet-ceremony-sub {
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+    }
+    
+    .haldi-date,
+    .sangeet-date {
+      font-size: clamp(0.8rem, 3.5vw, 1rem);
+    }
+    
+    .haldi-time,
+    .sangeet-time {
+      font-size: clamp(0.85rem, 3.5vw, 1.05rem);
+    }
+    
+    .haldi-desc,
+    .sangeet-desc {
+      font-size: clamp(0.85rem, 3vw, 1rem);
+    }
+    
+    .sangeet-corner {
+      width: 48px;
+      height: 48px;
+    }
+    
+    /* Events Grid */
+    .events-grid { 
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    
+    .event-card {
+      padding: 1.5rem 1.2rem;
+    }
+    
+    .event-icon {
+      width: 46px;
+      height: 46px;
+      font-size: 1.2rem;
+    }
+    
+    .event-name {
+      font-size: 1.3rem;
+    }
+    
+    .event-time {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+    }
+    
+    .event-desc {
+      font-size: 0.75rem;
+    }
+    
+    /* Venue */
+    .venue-box {
+      padding: 2rem 1.5rem;
+      border-radius: 20px;
+    }
+    
+    .venue-name {
+      font-size: clamp(1.5rem, 6vw, 2.2rem);
+    }
+    
+    .venue-location {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+    }
+    
+    .venue-desc {
+      font-size: clamp(0.9rem, 3vw, 1.05rem);
+      max-width: 100%;
+    }
+    
+    .venue-map {
+      height: 150px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+    }
+    
+    .map-pin {
+      font-size: 1.5rem;
+    }
+    
+    /* RSVP Form */
+    .rsvp-form-container {
+      padding: 2rem 1.5rem;
+      border-radius: 18px;
+    }
+    
+    .rsvp-form label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      margin-top: 16px;
+    }
+    
+    .rsvp-form input,
+    .rsvp-form select,
+    .rsvp-form textarea {
+      padding: 10px 12px;
+      font-size: 0.95rem;
+      border-radius: 10px;
+    }
+    
+    .rsvp-checks { 
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+    
+    .rsvp-check {
+      font-size: 0.8rem;
+    }
+    
+    .rsvp-btn {
+      padding: 12px 24px;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      margin-top: 20px;
+    }
+    
+    /* Registry */
+    .registry-cta {
+      padding: 16px 28px;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+    }
+    
+    .registry-note {
+      font-size: 0.85rem;
+      max-width: 100%;
+    }
+    
+    /* Dresscode */
+    .dresscode-note {
+      font-size: clamp(0.9rem, 3vw, 1.05rem);
+      max-width: 100%;
+    }
+    
+    .dress-suggestions {
+      gap: 0.8rem;
+      margin-top: 1.2rem;
+    }
+    
+    .dress-item {
+      padding: 12px 16px;
+      border-radius: 12px;
+    }
+    
+    .dress-icon {
+      font-size: 1.3rem;
+    }
+    
+    .dress-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+    }
+    
+    .dress-desc {
+      font-size: 0.85rem;
+    }
+    
+    /* Closing / Signature */
+    .closing-text {
+      font-size: clamp(0.95rem, 3.5vw, 1.15rem);
+      max-width: 100%;
+    }
+    
+    .closing-names {
+      font-size: clamp(2rem, 8vw, 3.2rem);
+    }
+    
+    .closing-heart {
+      font-size: 1rem;
+    }
+    
+    /* Page Navigation */
+    .page-nav { 
+      right: 8px;
+      gap: 10px;
+    }
+    
+    .page-nav a {
+      width: 7px;
+      height: 7px;
+      border-width: 1.5px;
+    }
+    
+    /* Thank You Message */
+    .thank-msg {
+      max-width: 100%;
+      padding: 2rem 1.5rem;
+    }
+    
+    .thank-msg h3 {
+      font-size: clamp(1.8rem, 7vw, 2.6rem);
+    }
+    
+    .thank-msg p {
+      font-size: clamp(0.9rem, 3vw, 1.05rem);
+    }
+  }
+  
+  /* Extra small mobile devices */
+  @media (max-width: 380px) {
+    .page {
+      padding: 1.5rem 0.8rem 5rem;
+    }
+    
+    .cover-names {
+      font-size: clamp(3rem, 20vw, 5rem);
+    }
+    
+    .countdown {
+      gap: 6px;
+    }
+    
+    .count-unit {
+      padding: 8px 3px;
+    }
+    
+    .count-num {
+      font-size: 1.2rem;
+    }
+    
+    .count-label {
+      font-size: 0.45rem;
+    }
+    
+    .section-title {
+      font-size: 1.4rem;
+    }
+    
+    .invite-name {
+      font-size: 1.8rem;
+    }
+    
+    .haldi-block,
+    .sangeet-block {
+      padding: 2rem 1.2rem;
+    }
+    
+    .event-card {
+      padding: 1.2rem 1rem;
+    }
+    
+    .venue-box,
+    .rsvp-form-container {
+      padding: 1.5rem 1.2rem;
+    }
+  }
+  
+  /* Landscape orientation on mobile */
+  @media (max-width: 900px) and (max-height: 500px) {
+    .page {
+      min-height: auto;
+      padding: 3rem 1.5rem;
+    }
+    
+    .countdown {
+      margin: 1.5rem auto 0;
+    }
+    
+    .scroll-cue {
+      display: none;
+    }
+  }
+
+  /* SVG floral common styles */
+  .floral-svg { width: 100%; height: 100%; }
+
+  /* ═══════════════════════════════════════════
+     GLOBAL TYPOGRAPHY & BEAUTY REFRESH
+     ═══════════════════════════════════════════ */
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: #fffaf6;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .page {
+    isolation: isolate;
+  }
+  .section-label {
+    font-size: 0.74rem;
+    letter-spacing: 0.42em;
+    font-weight: 500;
+  }
+  .section-title {
+    font-size: clamp(2.35rem, 6vw, 4.3rem);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: 0.01em;
+    text-shadow: 0 2px 10px rgba(90, 48, 64, 0.06);
+  }
+  .section-title em {
+    font-family: 'Great Vibes', 'Tangerine', cursive;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.08em;
+    color: #b77487;
+    line-height: 1;
+  }
+
+  /* Key decorative names */
+  .invite-name,
+  .haldi-name,
+  .sangeet-name {
+    font-family: 'Great Vibes', 'Tangerine', cursive !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.01em !important;
+    line-height: 1 !important;
+    text-shadow: 0 4px 18px rgba(90, 48, 64, 0.08);
+  }
+  .invite-name {
+    font-size: clamp(3.1rem, 9vw, 5rem);
+  }
+  .haldi-name,
+  .sangeet-name {
+    font-size: clamp(3rem, 8vw, 4.3rem) !important;
+  }
+
+  /* Body copy refinement */
+  .seek-line,
+  .invite-parents,
+  .haldi-desc,
+  .sangeet-desc,
+  .family-invites-intro,
+  .family-welcome-text,
+  .family-invites-subtitle {
+    line-height: 1.75;
+  }
+
+  /* Readability-first date/time styling */
+  .cover-date,
+  .haldi-time,
+  .sangeet-time,
+  .venue-map,
+  .family-invites-list li,
+  .family-invites-love,
+  .family-welcome-caption,
+  .family-invites-caption {
+    font-family: 'Jost', sans-serif;
+    font-variant-numeric: tabular-nums;
+  }
+  .cover-date {
+    font-size: clamp(1rem, 2.4vw, 1.18rem);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+  .haldi-time,
+  .sangeet-time {
+    font-size: clamp(1rem, 2.45vw, 1.14rem) !important;
+    font-weight: 500;
+    letter-spacing: 0.015em;
+    line-height: 1.58;
+    text-align: center;
+    max-width: 36rem;
+    margin: 0.48rem auto;
+  }
+  .haldi-time .dot,
+  .sangeet-time .dot {
+    opacity: 0.88;
+    margin: 0 0.52rem;
+  }
+  #sangeet-photo .sangeet-time,
+  #reception-photo .haldi-time {
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.18);
+  }
+
+  /* Softer polish on interactive elements */
+  .submit-btn {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #c9973f 0%, #e2bf79 100%);
+    box-shadow: 0 12px 28px rgba(201, 151, 63, 0.28);
+  }
+  .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 34px rgba(201, 151, 63, 0.32);
+  }
+  .page-nav a {
+    width: 12px;
+    height: 12px;
+    background: rgba(201, 151, 63, 0.45);
+    box-shadow:
+      0 0 0 2px rgba(255,255,255,0.75),
+      0 4px 10px rgba(90, 48, 64, 0.12);
+  }
+  .page-nav a.active {
+    background: var(--gold);
+    transform: scale(1.25);
+  }
+
+  /* Small card polish */
+  .venue-map,
+  .family-group-card,
+  .family-love-card {
+    box-shadow:
+      0 14px 34px rgba(90, 48, 64, 0.08),
+      inset 0 1px 0 rgba(255,255,255,0.84);
+  }
+
+  /* Mobile-first clarity */
+  @media (max-width: 600px) {
+    .section-title {
+      font-size: clamp(2.1rem, 9vw, 3.2rem);
+      line-height: 1.1;
+    }
+    .section-title em {
+      display: inline-block;
+      font-size: 1.05em;
+    }
+    .invite-name {
+      font-size: clamp(2.9rem, 13vw, 4.2rem);
+    }
+    .haldi-name,
+    .sangeet-name {
+      font-size: clamp(2.6rem, 11vw, 3.6rem) !important;
+    }
+    .cover-date {
+      font-size: 0.98rem;
+      line-height: 1.55;
+    }
+    .haldi-time,
+    .sangeet-time {
+      font-size: clamp(0.98rem, 4.05vw, 1.08rem) !important;
+      line-height: 1.62;
+      letter-spacing: 0.01em;
+      padding: 0 0.2rem;
+      max-width: 100%;
+    }
+    .haldi-desc,
+    .sangeet-desc,
+    .family-invites-intro,
+    .family-welcome-text {
+      font-size: clamp(0.92rem, 3.6vw, 1rem);
+      line-height: 1.7;
+    }
+    .family-invites-list li {
+      font-size: clamp(0.96rem, 3.9vw, 1.06rem);
+      line-height: 1.52;
+    }
+  }
+
+
+  /* ═══════════════════════════════════════════
+     FINAL PREMIUM READABILITY + STYLING TWEAKS
+     ═══════════════════════════════════════════ */
+  :root {
+    --soft-quote: #7a5866;
+    --soft-copy: #6c4554;
+    --family-name: #5d3a48;
+  }
+
+  /* Page 2 — grandparents + mantra + parents */
+  #story .hosts-line {
+    font-family: 'Cormorant Garamond', serif !important;
+    font-variant: normal;
+    font-style: normal;
+    font-weight: 600;
+    font-size: clamp(1.08rem, 2.9vw, 1.38rem);
+    letter-spacing: 0.045em;
+    color: var(--soft-copy);
+    line-height: 1.55;
+    text-align: center;
+    max-width: 760px;
+    margin: 2.3rem auto 0;
+    padding: 0.9rem 1.25rem;
+    background: linear-gradient(180deg, rgba(255,255,255,0.70) 0%, rgba(255,247,241,0.55) 100%);
+    border: 1px solid rgba(201, 151, 63, 0.18);
+    border-radius: 18px;
+    box-shadow:
+      0 14px 30px rgba(90, 48, 64, 0.05),
+      inset 0 1px 0 rgba(255,255,255,0.72);
+  }
+  .ganesha-mantra,
+  .seek-line,
+  .invite-parents,
+  .haldi-desc,
+  .sangeet-desc,
+  .family-invites-intro,
+  .family-invites-subtitle,
+  .family-invites-caption {
+    color: var(--soft-quote) !important;
+  }
+  .ganesha-mantra {
+    font-size: 0.92rem;
+    letter-spacing: 0.12em;
+  }
+  #story .seek-line {
+    font-size: clamp(1rem, 2.2vw, 1.13rem);
+    line-height: 1.72;
+    max-width: 540px;
+    margin-top: 0.85rem;
+  }
+  #story .invite-parents {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.1vw, 1.14rem);
+    font-weight: 500;
+    line-height: 1.6;
+    margin-top: 0.65rem;
+  }
+
+  /* Reception page — remove secondary subtitle spacing */
+  #reception-photo .haldi-ceremony-sub {
+    display: none !important;
+  }
+
+  /* Family names page — make the names and cards more joyful/styled */
+  #family-invites .family-invites-grid {
+    gap: 1.1rem;
+    margin-top: 0.7rem;
+  }
+  #family-invites .family-group-card,
+  #family-invites .family-love-card {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(255,248,242,0.92) 100%);
+    border: 1px solid rgba(201, 151, 63, 0.24);
+    box-shadow:
+      0 18px 36px rgba(90, 48, 64, 0.08),
+      inset 0 1px 0 rgba(255,255,255,0.92);
+  }
+  #family-invites .family-invites-heading {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    color: #98661a;
+    padding: 0.48rem 1rem;
+    background: linear-gradient(135deg, rgba(201,151,63,0.13), rgba(239,214,171,0.26));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
+  }
+  #family-invites .family-invites-list {
+    gap: 0.58rem;
+  }
+  #family-invites .family-invites-list li {
+    font-family: 'Jost', sans-serif !important;
+    font-weight: 500;
+    font-size: clamp(0.96rem, 2.5vw, 1.04rem);
+    letter-spacing: 0.01em;
+    color: var(--family-name) !important;
+    line-height: 1.48;
+    padding: 0.68rem 0.85rem;
+    border-radius: 15px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(253,244,238,0.92));
+    border: 1px solid rgba(201, 151, 63, 0.16);
+    box-shadow: 0 8px 18px rgba(90, 48, 64, 0.05);
+  }
+  #family-invites .family-invites-list.compact li {
+    font-size: clamp(0.94rem, 2.4vw, 1.01rem);
+  }
+  #family-invites .family-love-card {
+    background: linear-gradient(135deg, rgba(255,247,239,0.98), rgba(252,239,245,0.96));
+    padding-top: 1.15rem;
+    padding-bottom: 1.15rem;
+  }
+  #family-invites .family-love-label {
+    color: #98661a;
+    font-size: 0.74rem;
+    letter-spacing: 0.24em;
+  }
+  #family-invites .family-invites-love {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.15rem, 2.9vw, 1.38rem);
+    color: var(--soft-copy);
+  }
+
+  @media (max-width: 600px) {
+    #story .hosts-line {
+      font-size: 1.04rem;
+      padding: 0.8rem 0.9rem;
+      line-height: 1.5;
+      margin-top: 1.9rem;
+      border-radius: 16px;
+    }
+    .ganesha-mantra {
+      font-size: 0.88rem;
+      letter-spacing: 0.1em;
+    }
+    #story .seek-line {
+      font-size: 0.98rem;
+      line-height: 1.68;
+      max-width: 100%;
+      padding: 0 0.2rem;
+    }
+    #story .invite-parents {
+      font-size: 0.98rem;
+      line-height: 1.55;
+    }
+    #family-invites .family-invites-list li,
+    #family-invites .family-invites-list.compact li {
+      font-size: 0.95rem;
+      line-height: 1.46;
+      padding: 0.62rem 0.72rem;
+      border-radius: 14px;
+    }
+  }
+
+
+  /* ═══════════════════════════════════════════
+     BOXLESS ELEGANCE REFINEMENT
+     Removes the box-heavy treatment for grandparents and family names
+     ═══════════════════════════════════════════ */
+  /* Page 2 grandparents line: elegant text, no card/box */
+  #story .hosts-line {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    max-width: 760px;
+    margin: 2.2rem auto 0;
+    position: relative;
+    font-size: clamp(1.1rem, 2.9vw, 1.4rem);
+    font-weight: 600;
+    letter-spacing: 0.035em;
+    line-height: 1.6;
+    color: #6a4655;
+  }
+  #story .hosts-line::before,
+  #story .hosts-line::after {
+    content: "✦";
+    display: block;
+    color: rgba(201, 151, 63, 0.9);
+    font-size: 0.92rem;
+    letter-spacing: 0.18em;
+    margin: 0.35rem auto;
+  }
+
+  /* Family names page: remove card boxes and name pills */
+  #family-invites .family-invites-grid {
+    width: min(100%, 840px);
+    gap: 1.35rem;
+  }
+  #family-invites .family-group-card,
+  #family-invites .family-love-card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    padding: 0.35rem 0 0.2rem;
+    border-radius: 0 !important;
+  }
+  #family-invites .family-group-card.full,
+  #family-invites .family-love-card {
+    grid-column: 1 / -1;
+  }
+  #family-invites .family-invites-heading {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    width: auto !important;
+    margin: 0 auto 0.95rem;
+    color: #9a6a20;
+    font-size: 0.78rem;
+    letter-spacing: 0.28em;
+    position: relative;
+  }
+  #family-invites .family-invites-heading::before,
+  #family-invites .family-invites-heading::after {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    width: 32px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,151,63,0.7), transparent);
+    margin: 0 0.7rem;
+  }
+  #family-invites .family-invites-list {
+    gap: 0.38rem;
+  }
+  #family-invites .family-invites-list li {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0.12rem 0 !important;
+    border-radius: 0 !important;
+    font-family: 'Cormorant Garamond', serif !important;
+    font-size: clamp(1.02rem, 2.55vw, 1.14rem);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: #5f3d4b !important;
+    line-height: 1.56;
+  }
+  #family-invites .family-invites-list.compact li {
+    font-size: clamp(0.98rem, 2.45vw, 1.08rem);
+  }
+  #family-invites .family-love-card {
+    margin-top: 0.2rem;
+  }
+  #family-invites .family-love-label {
+    margin-bottom: 0.35rem;
+  }
+
+  @media (max-width: 700px) {
+    #family-invites .family-invites-grid {
+      gap: 1.05rem;
+    }
+    #family-invites .family-invites-heading::before,
+    #family-invites .family-invites-heading::after {
+      width: 22px;
+      margin: 0 0.45rem;
+    }
+    #story .hosts-line {
+      font-size: 1.04rem;
+      line-height: 1.55;
+      margin-top: 1.9rem;
+    }
+    #family-invites .family-invites-list li,
+    #family-invites .family-invites-list.compact li {
+      font-size: 0.98rem;
+      line-height: 1.5;
+    }
+  }
+
+
+  /* ═══════════════════════════════════════════
+     FINAL FIXES — RECEPTION QUOTE, BACK BUTTON, WEDDING DATE
+     ═══════════════════════════════════════════ */
+  /* Reception quote was too muted on the dark reception palette */
+  #reception-photo .haldi-desc {
+    color: #fff0d4 !important;
+    opacity: 1 !important;
+    font-weight: 500;
+    text-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.32),
+      0 0 16px rgba(255, 218, 170, 0.16);
+  }
+
+  /* Wedding/Varmala page: date should read bigger than individual time lines */
+  #wedding-photo .event-date-line {
+    font-size: clamp(1.15rem, 2.85vw, 1.34rem) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.035em;
+    color: var(--deep) !important;
+    margin-bottom: 0.65rem;
+  }
+  #wedding-photo .haldi-time:not(.event-date-line) {
+    font-size: clamp(0.98rem, 2.35vw, 1.1rem) !important;
+  }
+
+  /* Last family page: keep Back to Top visible and intentional */
+  #family-invites .final-back-top {
+    display: inline-flex !important;
+    width: auto !important;
+    align-items: center;
+    justify-content: center;
+    padding: 0.92rem 2.25rem !important;
+    margin-top: 0.7rem !important;
+    margin-bottom: 0.6rem !important;
+    text-decoration: none !important;
+    border-radius: 999px;
+    position: relative;
+    z-index: 3;
+  }
+  #family-invites .family-invites-ending {
+    padding-bottom: 0.6rem;
+  }
+  #family-invites .family-invites-art img {
+    max-height: min(38vh, 330px);
+    object-fit: contain;
+  }
+
+  @media (max-width: 600px) {
+    #reception-photo .haldi-desc {
+      font-size: clamp(0.96rem, 3.9vw, 1.08rem) !important;
+      line-height: 1.62;
+    }
+    #wedding-photo .event-date-line {
+      font-size: clamp(1.08rem, 4.45vw, 1.2rem) !important;
+      line-height: 1.55;
+    }
+    #wedding-photo .haldi-time:not(.event-date-line) {
+      font-size: clamp(0.96rem, 3.9vw, 1.04rem) !important;
+      line-height: 1.55;
+    }
+    #family-invites .family-invites-art img {
+      max-height: 30vh;
+    }
+    #family-invites .final-back-top {
+      padding: 0.86rem 2rem !important;
+      margin-top: 0.55rem !important;
+    }
+  }
+
+
+  /* ═══════════════════════════════════════════
+     FINAL FIX — SANGEET QUOTE READABILITY
+     ═══════════════════════════════════════════ */
+  #sangeet-photo .sangeet-desc {
+    color: #fff0d4 !important;
+    opacity: 1 !important;
+    font-weight: 500;
+    text-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.34),
+      0 0 18px rgba(255, 218, 170, 0.18);
+  }
+
+  @media (max-width: 600px) {
+    #sangeet-photo .sangeet-desc {
+      font-size: clamp(0.96rem, 3.9vw, 1.08rem) !important;
+      line-height: 1.62;
+      margin-top: 0.95rem;
+    }
+  }
+
+
+  /* ═══════════════════════════════════════════
+     ENTRY GATE MUSIC START
+     No visible music controls; music starts when guest opens the invitation
+     ═══════════════════════════════════════════ */
+  .music-frame-host {
+    position: fixed;
+    width: 1px;
+    height: 1px;
+    left: -9999px;
+    top: -9999px;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .entry-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: grid;
+    place-items: center;
+    padding: 2rem;
+    background:
+      radial-gradient(circle at 18% 18%, rgba(249, 200, 168, 0.34), transparent 26%),
+      radial-gradient(circle at 84% 16%, rgba(217, 197, 240, 0.36), transparent 26%),
+      linear-gradient(180deg, #fff8f1 0%, #fdf0f5 54%, #fdf6ed 100%);
+    transition: opacity 0.75s ease, visibility 0.75s ease;
+  }
+  .entry-overlay.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .entry-card {
+    width: min(92vw, 420px);
+    text-align: center;
+    padding: 2.4rem 1.8rem;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.58);
+    border: 1px solid rgba(201, 151, 63, 0.22);
+    box-shadow:
+      0 22px 56px rgba(90, 48, 64, 0.13),
+      inset 0 1px 0 rgba(255,255,255,0.8);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  .entry-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    margin: 0 auto 1rem;
+    max-width: 260px;
+  }
+  .entry-ornament .line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,151,63,0.82), transparent);
+  }
+  .entry-ornament .glyph {
+    color: var(--gold);
+    font-size: 0.95rem;
+  }
+  .entry-title {
+    font-family: 'Tangerine', cursive;
+    font-size: clamp(3.2rem, 14vw, 5.2rem);
+    line-height: 0.88;
+    color: var(--deep);
+    margin: 0;
+  }
+  .entry-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 1.08rem;
+    line-height: 1.55;
+    margin: 1.15rem auto 1.4rem;
+  }
+  .entry-open {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    border: none;
+    border-radius: 999px;
+    padding: 0.95rem 1.6rem;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    color: #fff;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    box-shadow: 0 12px 30px rgba(201, 151, 63, 0.30);
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .entry-open:active {
+    transform: translateY(1px);
+  }
+  .entry-note {
+    margin-top: 1rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(90, 48, 64, 0.62);
+  }
+  @media (max-width: 600px) {
+    .entry-card {
+      padding: 2.1rem 1.45rem;
+      border-radius: 24px;
+    }
+    .entry-subtitle {
+      font-size: 1rem;
+    }
+    .entry-open {
+      padding: 0.88rem 1.35rem;
+      font-size: 0.68rem;
+    }
+  }
+
+
+  /* ═══════════════════════════════════════════
+     ENTRY SCREEN — MOBILE FRIENDLY REFINEMENT
+     ═══════════════════════════════════════════ */
+  .entry-overlay {
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-y: auto;
+    padding: max(1.2rem, env(safe-area-inset-top)) 1.1rem max(1.2rem, env(safe-area-inset-bottom));
+  }
+  .entry-card {
+    width: min(90vw, 390px);
+    max-height: calc(100dvh - 2.4rem);
+    overflow: hidden;
+    padding: clamp(1.65rem, 6vw, 2.25rem) clamp(1.25rem, 5vw, 1.75rem);
+    border-radius: 24px;
+  }
+  .entry-title {
+    font-size: clamp(3rem, 15vw, 4.7rem);
+    line-height: 0.9;
+  }
+  .entry-subtitle {
+    max-width: 300px;
+    margin: 1rem auto 1.35rem;
+    font-size: clamp(0.96rem, 4vw, 1.08rem);
+  }
+  .entry-open {
+    width: min(100%, 260px);
+    min-height: 48px;
+    padding: 0.88rem 1.2rem;
+  }
+
+  @media (max-width: 390px) {
+    .entry-overlay {
+      padding: 0.9rem;
+    }
+    .entry-card {
+      width: 92vw;
+      padding: 1.45rem 1.1rem;
+      border-radius: 22px;
+    }
+    .entry-ornament {
+      margin-bottom: 0.78rem;
+    }
+    .entry-title {
+      font-size: clamp(2.85rem, 15vw, 4.2rem);
+    }
+    .entry-subtitle {
+      margin: 0.85rem auto 1.15rem;
+      font-size: 0.96rem;
+      line-height: 1.48;
+    }
+    .entry-open {
+      min-height: 46px;
+      font-size: 0.64rem;
+      letter-spacing: 0.14em;
+    }
+  }
+
+  @media (max-height: 700px) {
+    .entry-card {
+      padding-top: 1.25rem;
+      padding-bottom: 1.25rem;
+    }
+    .entry-ornament {
+      margin-bottom: 0.65rem;
+    }
+    .entry-title {
+      font-size: clamp(2.65rem, 12vh, 4rem);
+    }
+    .entry-subtitle {
+      margin: 0.75rem auto 1rem;
+      line-height: 1.42;
+    }
+  }
+
+
+  /* Opening screen name layout */
+  .entry-title .entry-and {
+    display: inline-block;
+    margin-top: 0.12em;
+    font-size: 0.9em;
+    letter-spacing: 0.01em;
+  }
+  .entry-open {
+    width: min(100%, 300px);
+  }
+  @media (max-width: 390px) {
+    .entry-open {
+      width: min(100%, 285px);
+      letter-spacing: 0.11em;
+    }
+  }
+
+
+  /* ═══════════════════════════════════════════
+     EXTRA SMALL MOBILE SUPPORT
+     Optimized for 320px–360px wide phones
+     ═══════════════════════════════════════════ */
+  @media (max-width: 360px) {
+    .page {
+      padding-left: 0.72rem !important;
+      padding-right: 0.72rem !important;
+      padding-bottom: 4.8rem !important;
+    }
+
+    .page-nav {
+      right: 5px !important;
+      gap: 8px !important;
+    }
+    .page-nav a {
+      width: 6px !important;
+      height: 6px !important;
+    }
+
+    .corner-floral {
+      width: 92px !important;
+      height: 92px !important;
+      opacity: 0.24 !important;
+    }
+
+    .cover-content {
+      width: 100%;
+    }
+    .cover-names {
+      font-size: clamp(3.15rem, 18vw, 4.7rem) !important;
+      line-height: 0.88 !important;
+    }
+    .cover-amp {
+      font-size: clamp(1.12rem, 5.6vw, 1.55rem) !important;
+      letter-spacing: 0.18em !important;
+      margin: 0.32rem 0 !important;
+    }
+    .cover-date {
+      font-size: 0.92rem !important;
+      line-height: 1.45 !important;
+      letter-spacing: 0.035em !important;
+      margin-top: 0.9rem !important;
+    }
+    .countdown {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 5px !important;
+      padding: 0 2px !important;
+      margin-top: 1.5rem !important;
+    }
+    .count-unit {
+      padding: 8px 2px !important;
+      border-radius: 9px !important;
+    }
+    .count-num {
+      font-size: 1.18rem !important;
+    }
+    .count-label {
+      font-size: 0.42rem !important;
+      letter-spacing: 0.11em !important;
+    }
+
+    .ganesha-img {
+      width: 68px !important;
+    }
+    .ganesha-mantra {
+      font-size: 0.7rem !important;
+      letter-spacing: 0.08em !important;
+      padding-left: 0.65rem !important;
+      padding-right: 0.65rem !important;
+    }
+    #story .hosts-line {
+      font-size: 0.98rem !important;
+      line-height: 1.45 !important;
+      margin-top: 1.45rem !important;
+    }
+    #story .seek-line,
+    #story .invite-parents {
+      font-size: 0.92rem !important;
+      line-height: 1.55 !important;
+    }
+    .invite-name {
+      font-size: clamp(2.45rem, 13vw, 3.15rem) !important;
+      margin-top: 1.15rem !important;
+    }
+
+    .haldi-block,
+    .sangeet-block {
+      padding: 2.05rem 1rem !important;
+      margin-top: 0.9rem !important;
+      width: calc(100% - 0.2rem) !important;
+    }
+    .haldi-inner-frame,
+    .sangeet-inner-frame {
+      inset: 18px !important;
+    }
+    .haldi-name,
+    .sangeet-name {
+      font-size: clamp(2.45rem, 13vw, 3.1rem) !important;
+      white-space: normal !important;
+    }
+    .sangeet-name {
+      line-height: 0.96 !important;
+    }
+    .haldi-ceremony-sub,
+    .sangeet-ceremony-sub {
+      font-size: 0.58rem !important;
+      letter-spacing: 0.24em !important;
+      margin-bottom: 0.9rem !important;
+    }
+    .haldi-time,
+    .sangeet-time {
+      font-size: 0.94rem !important;
+      line-height: 1.48 !important;
+      letter-spacing: 0 !important;
+      margin: 0.35rem auto !important;
+    }
+    .haldi-time .dot,
+    .sangeet-time .dot {
+      display: none !important;
+    }
+    .haldi-desc,
+    .sangeet-desc {
+      font-size: 0.92rem !important;
+      line-height: 1.55 !important;
+      margin-top: 0.75rem !important;
+    }
+
+    section.page#wedding-photo .couple-img,
+    section.page#reception-photo .couple-img {
+      max-width: 390px !important;
+    }
+
+    .venue-box {
+      padding: 1.35rem 1rem !important;
+      border-radius: 18px !important;
+    }
+    .venue-name {
+      font-size: 1.55rem !important;
+    }
+    .venue-location {
+      font-size: 0.68rem !important;
+      letter-spacing: 0.13em !important;
+      line-height: 1.45 !important;
+    }
+    .venue-desc {
+      font-size: 0.9rem !important;
+      line-height: 1.6 !important;
+    }
+    .venue-map {
+      min-height: 132px !important;
+      height: auto !important;
+      padding: 1rem 0.65rem !important;
+      font-size: 0.72rem !important;
+      line-height: 1.45 !important;
+    }
+    .map-action {
+      font-size: 0.58rem !important;
+      letter-spacing: 0.11em !important;
+      padding: 0.52rem 0.82rem !important;
+    }
+
+    #family-invites {
+      padding-left: 0.78rem !important;
+      padding-right: 0.78rem !important;
+    }
+    #family-invites .section-title {
+      font-size: clamp(1.95rem, 10vw, 2.6rem) !important;
+    }
+    #family-invites .family-invites-intro {
+      font-size: 0.9rem !important;
+      line-height: 1.55 !important;
+    }
+    #family-invites .family-invites-heading {
+      font-size: 0.66rem !important;
+      letter-spacing: 0.18em !important;
+      margin-bottom: 0.7rem !important;
+    }
+    #family-invites .family-invites-heading::before,
+    #family-invites .family-invites-heading::after {
+      width: 14px !important;
+      margin: 0 0.32rem !important;
+    }
+    #family-invites .family-invites-list li,
+    #family-invites .family-invites-list.compact li {
+      font-size: 0.93rem !important;
+      line-height: 1.45 !important;
+    }
+    #family-invites .family-invites-art img {
+      max-height: 25vh !important;
+    }
+    #family-invites .final-back-top {
+      padding: 0.78rem 1.55rem !important;
+      font-size: 0.62rem !important;
+      letter-spacing: 0.11em !important;
+    }
+
+    .entry-card {
+      width: 92vw !important;
+      padding: 1.35rem 1rem !important;
+      border-radius: 22px !important;
+      max-height: calc(100dvh - 1.6rem) !important;
+    }
+    .entry-title {
+      font-size: clamp(2.7rem, 15vw, 4rem) !important;
+      line-height: 0.9 !important;
+    }
+    .entry-subtitle {
+      font-size: 0.93rem !important;
+      line-height: 1.42 !important;
+      margin: 0.82rem auto 1rem !important;
+    }
+    .entry-open {
+      width: min(100%, 270px) !important;
+      min-height: 44px !important;
+      font-size: 0.62rem !important;
+      letter-spacing: 0.10em !important;
+      padding: 0.78rem 0.95rem !important;
+    }
+  }
+
+  @media (max-width: 330px) {
+    .page {
+      padding-left: 0.58rem !important;
+      padding-right: 0.58rem !important;
+    }
+    .cover-names {
+      font-size: clamp(2.9rem, 17vw, 4.2rem) !important;
+    }
+    .countdown {
+      gap: 4px !important;
+    }
+    .count-unit {
+      padding: 7px 1px !important;
+    }
+    .count-num {
+      font-size: 1.05rem !important;
+    }
+    .count-label {
+      font-size: 0.38rem !important;
+      letter-spacing: 0.08em !important;
+    }
+    .haldi-block,
+    .sangeet-block {
+      padding-left: 0.82rem !important;
+      padding-right: 0.82rem !important;
+    }
+    .haldi-time,
+    .sangeet-time {
+      font-size: 0.89rem !important;
+    }
+    .entry-title {
+      font-size: clamp(2.55rem, 14vw, 3.7rem) !important;
+    }
+    .entry-open {
+      font-size: 0.58rem !important;
+      letter-spacing: 0.08em !important;
+    }
+  }
+
+  @media (max-height: 640px) and (max-width: 420px) {
+    .entry-card {
+      padding-top: 1.1rem !important;
+      padding-bottom: 1.1rem !important;
+    }
+    .entry-ornament {
+      margin-bottom: 0.52rem !important;
+    }
+    .entry-title {
+      font-size: clamp(2.55rem, 11vh, 3.8rem) !important;
+    }
+    .entry-subtitle {
+      margin: 0.65rem auto 0.85rem !important;
+      font-size: 0.9rem !important;
+    }
+    .entry-open {
+      min-height: 42px !important;
+    }
+    .scroll-cue {
+      display: none !important;
+    }
+  }
+
+
+  /* ═══════════════════════════════════════════
+     PAGE 3B — MAYRA
+     ═══════════════════════════════════════════ */
+  #mayra-photo {
+    background: linear-gradient(180deg, #fff5e8 0%, #fdebd8 45%, #fdf0f5 100%);
+    padding: clamp(3rem, 6vw, 4rem) clamp(1.5rem, 6vw, 5rem) 0;
+    justify-content: flex-start;
+    gap: clamp(1.2rem, 3.5vw, 2rem);
+    position: relative;
+  }
+  #mayra-photo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 45% at 18% 18%, rgba(255, 187, 105, 0.20), transparent 72%),
+      radial-gradient(ellipse 58% 40% at 82% 14%, rgba(232, 196, 122, 0.18), transparent 72%),
+      radial-gradient(ellipse 80% 44% at 50% 92%, rgba(245, 184, 196, 0.14), transparent 76%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  #mayra-photo > * {
+    position: relative;
+    z-index: 1;
+  }
+  #mayra-photo .haldi-block {
+    margin-top: 0;
+    background:
+      radial-gradient(ellipse at top, rgba(255, 247, 226, 0.94) 0%, rgba(255, 241, 218, 0.82) 58%, rgba(255, 255, 255, 0.66) 100%);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.9) inset,
+      0 18px 46px -20px rgba(124, 74, 35, 0.28),
+      0 8px 20px -10px rgba(201, 151, 63, 0.20);
+  }
+  #mayra-photo .haldi-name {
+    color: #8a4b24;
+  }
+  #mayra-photo .haldi-ceremony-sub {
+    color: #9b6a35;
+  }
+  #mayra-photo .haldi-time {
+    color: #6d452f;
+  }
+  #mayra-photo .haldi-desc {
+    color: #7a5866;
+  }
+  .mayra-frame {
+    width: min(100%, 760px);
+    margin: auto auto 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 2;
+  }
+  .mayra-img {
+    width: 100%;
+    max-width: 760px;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    object-position: bottom center;
+    filter:
+      drop-shadow(0 18px 34px rgba(90, 48, 64, 0.16))
+      drop-shadow(0 4px 12px rgba(124, 74, 35, 0.12));
+  }
+  @media (max-width: 600px) {
+    #mayra-photo {
+      padding-top: 2.3rem;
+      gap: 1rem;
+    }
+    #mayra-photo .haldi-block {
+      padding: 2.35rem 1.35rem;
+      margin-top: 0.3rem;
+    }
+    .mayra-frame {
+      width: 112%;
+      margin-left: -6%;
+      margin-right: -6%;
+    }
+    .mayra-img {
+      max-width: 520px;
+    }
+  }
+  @media (max-width: 360px) {
+    #mayra-photo .haldi-block {
+      padding: 2rem 1rem !important;
+    }
+    .mayra-frame {
+      width: 118%;
+      margin-left: -9%;
+      margin-right: -9%;
+    }
+  }
+
+
+  /* ═══════════════════════════════════════════
+     MAYRA IMAGE SIZE TWEAK
+     ═══════════════════════════════════════════ */
+  .mayra-frame {
+    width: min(108%, 840px) !important;
+  }
+  .mayra-img {
+    max-width: 840px !important;
+  }
+  @media (max-width: 600px) {
+    .mayra-frame {
+      width: 122% !important;
+      margin-left: -11% !important;
+      margin-right: -11% !important;
+    }
+    .mayra-img {
+      max-width: 620px !important;
+    }
+  }
+  @media (max-width: 360px) {
+    .mayra-frame {
+      width: 128% !important;
+      margin-left: -14% !important;
+      margin-right: -14% !important;
+    }
+  }
+
+
+  /* ═══════════════════════════════════════════
+     PAGE 2 SPACING FIX — PALAK BELOW WITH
+     ═══════════════════════════════════════════ */
+  #story .with-divider {
+    margin-top: 0.7rem !important;
+    margin-bottom: 0.7rem !important;
+  }
+  #story .invite-name.second {
+    margin-top: 0.45rem !important;
+  }
+  @media (max-width: 600px) {
+    #story .with-divider {
+      margin-top: 0.6rem !important;
+      margin-bottom: 0.85rem !important;
+    }
+    #story .invite-name.second {
+      margin-top: 0.55rem !important;
+    }
+  }
+  @media (max-width: 360px) {
+    #story .with-divider {
+      margin-bottom: 0.95rem !important;
+    }
+    #story .invite-name.second {
+      margin-top: 0.65rem !important;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Opening gate: starts music and opens invitation -->
+<div id="musicFrameHost" class="music-frame-host" aria-hidden="true"></div>
+<div id="entryOverlay" class="entry-overlay">
+  <div class="entry-card">
+    <div class="entry-ornament">
+      <span class="line"></span>
+      <span class="glyph">❦</span>
+      <span class="line"></span>
+    </div>
+    <h1 class="entry-title">Gaurav<br/><span class="entry-and">&amp; Palak</span></h1>
+    <p class="entry-subtitle">A celebration of love, family and togetherness</p>
+    <button id="openInviteBtn" class="entry-open" type="button">Open Wedding Invitation</button>
+  </div>
+</div>
+
+
+<!-- Global falling petals (over all pages) -->
+<div class="petals" id="petals"></div>
+
+<!-- ═══════════════ NAV DOTS ═══════════════ -->
+<nav class="page-nav" id="pageNav">
+  <a href="#cover" data-target="cover" class="active" aria-label="Cover"></a>
+  <a href="#story" data-target="story" aria-label="Story"></a>
+  <a href="#couple-photo" data-target="couple-photo" aria-label="Haldi"></a>
+  <a href="#mayra-photo" data-target="mayra-photo" aria-label="Mayra"></a>
+  <a href="#sangeet-photo" data-target="sangeet-photo" aria-label="Sangeet"></a>
+  <a href="#wedding-photo" data-target="wedding-photo" aria-label="Wedding"></a>
+  <a href="#reception-photo" data-target="reception-photo" aria-label="Reception"></a>
+  <a href="#venue" data-target="venue" aria-label="Venue"></a>
+  <a href="#family-invites" data-target="family-invites" aria-label="Family Invites"></a>
+</nav>
+
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<section class="page" id="cover">
+
+  <!-- Floral corners -->
+  <svg class="corner-floral tl" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g>
+      <ellipse cx="30" cy="30" rx="28" ry="12" fill="#f5b8c4" transform="rotate(-30 30 30)"/>
+      <ellipse cx="60" cy="15" rx="24" ry="10" fill="#f9c8a8" transform="rotate(15 60 15)"/>
+      <ellipse cx="15" cy="60" rx="20" ry="9" fill="#d9c5f0" transform="rotate(-60 15 60)"/>
+      <ellipse cx="80" cy="45" rx="22" ry="9" fill="#f5b8c4" transform="rotate(40 80 45)" opacity="0.85"/>
+      <ellipse cx="45" cy="85" rx="18" ry="8" fill="#f9c8a8" transform="rotate(-20 45 85)" opacity="0.9"/>
+      <circle cx="55" cy="55" r="8" fill="#e8c47a" opacity="0.7"/>
+      <circle cx="35" cy="80" r="5" fill="#f5b8c4" opacity="0.8"/>
+      <circle cx="85" cy="25" r="6" fill="#d9c5f0" opacity="0.7"/>
+      <path d="M10 10 Q50 50 100 80" stroke="#c9973f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M10 10 Q30 70 60 100" stroke="#e8889a" stroke-width="0.8" opacity="0.35" fill="none"/>
+      <circle cx="100" cy="80" r="4" fill="#f5b8c4" opacity="0.6"/>
+      <ellipse cx="120" cy="60" rx="16" ry="7" fill="#fce8d5" transform="rotate(55 120 60)" opacity="0.7"/>
+      <ellipse cx="55" cy="125" rx="14" ry="6" fill="#f5b8c4" transform="rotate(-45 55 125)" opacity="0.6"/>
+    </g>
+  </svg>
+  <svg class="corner-floral tr" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g>
+      <ellipse cx="30" cy="30" rx="28" ry="12" fill="#d9c5f0" transform="rotate(-30 30 30)"/>
+      <ellipse cx="60" cy="15" rx="24" ry="10" fill="#f5b8c4" transform="rotate(15 60 15)"/>
+      <ellipse cx="15" cy="60" rx="20" ry="9" fill="#f9c8a8" transform="rotate(-60 15 60)"/>
+      <ellipse cx="80" cy="45" rx="22" ry="9" fill="#d9c5f0" transform="rotate(40 80 45)" opacity="0.85"/>
+      <circle cx="55" cy="55" r="8" fill="#e8c47a" opacity="0.7"/>
+      <path d="M10 10 Q50 50 100 80" stroke="#c9973f" stroke-width="1" opacity="0.4" fill="none"/>
+      <ellipse cx="120" cy="60" rx="16" ry="7" fill="#fce8d5" transform="rotate(55 120 60)" opacity="0.7"/>
+    </g>
+  </svg>
+  <svg class="corner-floral bl" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g opacity="0.85">
+      <ellipse cx="30" cy="30" rx="28" ry="12" fill="#f9c8a8" transform="rotate(-30 30 30)"/>
+      <ellipse cx="60" cy="15" rx="24" ry="10" fill="#d9c5f0" transform="rotate(15 60 15)"/>
+      <ellipse cx="15" cy="60" rx="20" ry="9" fill="#f5b8c4" transform="rotate(-60 15 60)"/>
+      <circle cx="55" cy="55" r="8" fill="#e8c47a" opacity="0.7"/>
+      <path d="M10 10 Q50 50 100 80" stroke="#c9973f" stroke-width="1" opacity="0.4" fill="none"/>
+      <ellipse cx="80" cy="90" rx="18" ry="7" fill="#f9c8a8" transform="rotate(30 80 90)" opacity="0.65"/>
+    </g>
+  </svg>
+  <svg class="corner-floral br" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g opacity="0.85">
+      <ellipse cx="30" cy="30" rx="28" ry="12" fill="#f5b8c4" transform="rotate(-30 30 30)"/>
+      <ellipse cx="60" cy="15" rx="24" ry="10" fill="#f9c8a8" transform="rotate(15 60 15)"/>
+      <ellipse cx="15" cy="60" rx="20" ry="9" fill="#d9c5f0" transform="rotate(-60 15 60)"/>
+      <circle cx="55" cy="55" r="8" fill="#e8c47a" opacity="0.7"/>
+      <ellipse cx="90" cy="80" rx="20" ry="8" fill="#d9c5f0" transform="rotate(-20 90 80)" opacity="0.6"/>
+    </g>
+  </svg>
+
+  <div class="cover-content">
+    <h1 class="cover-names">Gaurav</h1>
+    <span class="cover-amp">— weds —</span>
+    <h1 class="cover-names">Palak</h1>
+    <p class="cover-date">3<sup>rd</sup> &amp; 4<sup>th</sup> July 2026 · Durg, Chhattisgarh</p>
+
+    <div class="countdown" id="countdown">
+      <div class="count-unit"><span class="count-num" id="days">—</span><span class="count-label">Days</span></div>
+      <div class="count-unit"><span class="count-num" id="hours">—</span><span class="count-label">Hours</span></div>
+      <div class="count-unit"><span class="count-num" id="mins">—</span><span class="count-label">Mins</span></div>
+      <div class="count-unit"><span class="count-num" id="secs">—</span><span class="count-label">Secs</span></div>
+    </div>
+  </div>
+
+  <div class="scroll-cue">Scroll <span>↓</span></div>
+</section>
+
+<!-- ═══════════════ PAGE 2: FORMAL INVITATION ═══════════════ -->
+<section class="page no-bouquet" id="story">
+  <div class="invitation-content">
+
+    <div class="ganesha-block reveal">
+      <img class="ganesha-img" src="https://lh3.googleusercontent.com/d/1TzMR6-nM-iyUELEnmrQ-AVgYo9u-Wx0z" alt="Lord Ganesha" />
+      <div class="ganesha-mantra">॥ Shree Ganeshaya Namah ॥</div>
+    </div>
+
+    <p class="hosts-line reveal d2">Smt. Vidya Devi Ji &amp; Lt. Sh. Jai Bhagwan Ji Singhal</p>
+    <p class="seek-line reveal d2">
+      seek your gracious presence &amp; blessings on the wedding<br/>
+      of their beloved son
+    </p>
+
+    <h2 class="invite-name reveal d3">Gaurav</h2>
+    <p class="invite-parents reveal d3">S/o Smt. Reena Ji &amp; Sh. Pramod Ji Singhal</p>
+
+    <p class="with-divider reveal d3">With</p>
+
+    <h2 class="invite-name second reveal d4">Palak</h2>
+    <p class="invite-parents reveal d4">D/o Smt. Kavita &amp; Sh. Sandeep Garg</p>
+
+  </div>
+</section>
+
+<!-- ═══════════════ PAGE 3: COUPLE PHOTO ═══════════════ -->
+<section class="page no-bouquet" id="couple-photo">
+  <div class="haldi-block reveal d1">
+    <div class="haldi-inner-frame"></div>
+
+    <!-- Floral corner flourishes -->
+    <svg class="haldi-corner tl" viewBox="0 0 56 56" fill="none">
+      <!-- Curving vine stem -->
+      <path d="M4 28 Q4 14 14 8 Q24 4 38 6" stroke="#7a8f5a" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M14 8 Q18 14 22 16" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <!-- Leaves on the vine -->
+      <path d="M10 18 Q6 16 8 12 Q12 14 10 18 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M20 10 Q16 6 22 4 Q24 8 20 10 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M28 10 Q26 4 32 4 Q32 8 28 10 Z" fill="#9bb37a" opacity="0.7"/>
+      <!-- Small bud at one tip -->
+      <circle cx="22" cy="16" r="2" fill="#e8a4b8" opacity="0.85"/>
+      <circle cx="22" cy="16" r="0.8" fill="#c9973f"/>
+      <!-- Larger flower bloom -->
+      <g transform="translate(8, 8)">
+        <circle cx="0" cy="-3.5" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="0" cy="0" r="1.4" fill="#c9973f"/>
+      </g>
+      <!-- Tiny berries on tendril -->
+      <circle cx="36" cy="6" r="1.3" fill="#e8a4b8" opacity="0.8"/>
+      <circle cx="38" cy="9" r="1" fill="#d9a8c4" opacity="0.7"/>
+      <!-- Small leaf accent at vine end -->
+      <path d="M4 28 Q2 32 6 32 Q6 30 4 28 Z" fill="#9bb37a" opacity="0.65"/>
+    </svg>
+    <svg class="haldi-corner tr" viewBox="0 0 56 56" fill="none">
+      <path d="M4 28 Q4 14 14 8 Q24 4 38 6" stroke="#7a8f5a" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M14 8 Q18 14 22 16" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M10 18 Q6 16 8 12 Q12 14 10 18 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M20 10 Q16 6 22 4 Q24 8 20 10 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M28 10 Q26 4 32 4 Q32 8 28 10 Z" fill="#9bb37a" opacity="0.7"/>
+      <circle cx="22" cy="16" r="2" fill="#e8a4b8" opacity="0.85"/>
+      <circle cx="22" cy="16" r="0.8" fill="#c9973f"/>
+      <g transform="translate(8, 8)">
+        <circle cx="0" cy="-3.5" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="0" cy="0" r="1.4" fill="#c9973f"/>
+      </g>
+      <circle cx="36" cy="6" r="1.3" fill="#e8a4b8" opacity="0.8"/>
+      <circle cx="38" cy="9" r="1" fill="#d9a8c4" opacity="0.7"/>
+      <path d="M4 28 Q2 32 6 32 Q6 30 4 28 Z" fill="#9bb37a" opacity="0.65"/>
+    </svg>
+    <svg class="haldi-corner bl" viewBox="0 0 56 56" fill="none">
+      <path d="M4 28 Q4 14 14 8 Q24 4 38 6" stroke="#7a8f5a" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M14 8 Q18 14 22 16" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M10 18 Q6 16 8 12 Q12 14 10 18 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M20 10 Q16 6 22 4 Q24 8 20 10 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M28 10 Q26 4 32 4 Q32 8 28 10 Z" fill="#9bb37a" opacity="0.7"/>
+      <circle cx="22" cy="16" r="2" fill="#e8a4b8" opacity="0.85"/>
+      <circle cx="22" cy="16" r="0.8" fill="#c9973f"/>
+      <g transform="translate(8, 8)">
+        <circle cx="0" cy="-3.5" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="0" cy="0" r="1.4" fill="#c9973f"/>
+      </g>
+      <circle cx="36" cy="6" r="1.3" fill="#e8a4b8" opacity="0.8"/>
+      <circle cx="38" cy="9" r="1" fill="#d9a8c4" opacity="0.7"/>
+      <path d="M4 28 Q2 32 6 32 Q6 30 4 28 Z" fill="#9bb37a" opacity="0.65"/>
+    </svg>
+    <svg class="haldi-corner br" viewBox="0 0 56 56" fill="none">
+      <path d="M4 28 Q4 14 14 8 Q24 4 38 6" stroke="#7a8f5a" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M14 8 Q18 14 22 16" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M10 18 Q6 16 8 12 Q12 14 10 18 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M20 10 Q16 6 22 4 Q24 8 20 10 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M28 10 Q26 4 32 4 Q32 8 28 10 Z" fill="#9bb37a" opacity="0.7"/>
+      <circle cx="22" cy="16" r="2" fill="#e8a4b8" opacity="0.85"/>
+      <circle cx="22" cy="16" r="0.8" fill="#c9973f"/>
+      <g transform="translate(8, 8)">
+        <circle cx="0" cy="-3.5" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="0" cy="0" r="1.4" fill="#c9973f"/>
+      </g>
+      <circle cx="36" cy="6" r="1.3" fill="#e8a4b8" opacity="0.8"/>
+      <circle cx="38" cy="9" r="1" fill="#d9a8c4" opacity="0.7"/>
+      <path d="M4 28 Q2 32 6 32 Q6 30 4 28 Z" fill="#9bb37a" opacity="0.65"/>
+    </svg>
+
+    <!-- Edge floral medallions: single flower with leaves -->
+    <svg class="haldi-side top" width="80" height="20" viewBox="0 0 80 20" fill="none">
+      <!-- Curving stem across -->
+      <path d="M8 14 Q24 10 40 12 Q56 14 72 10" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <!-- Side leaves -->
+      <path d="M18 12 Q14 10 16 6 Q20 8 18 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M62 12 Q66 10 64 6 Q60 8 62 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <!-- Center flower -->
+      <g transform="translate(40, 10)">
+        <circle cx="0" cy="-4" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="0" cy="0" r="1.5" fill="#c9973f"/>
+      </g>
+      <!-- Small side buds -->
+      <circle cx="24" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/>
+      <circle cx="56" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/>
+    </svg>
+    <svg class="haldi-side bottom" width="80" height="20" viewBox="0 0 80 20" fill="none">
+      <path d="M8 14 Q24 10 40 12 Q56 14 72 10" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M18 12 Q14 10 16 6 Q20 8 18 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M62 12 Q66 10 64 6 Q60 8 62 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <g transform="translate(40, 10)">
+        <circle cx="0" cy="-4" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="0" cy="0" r="1.5" fill="#c9973f"/>
+      </g>
+      <circle cx="24" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/>
+      <circle cx="56" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/>
+    </svg>
+    <svg class="haldi-side left" width="80" height="20" viewBox="0 0 80 20" fill="none">
+      <path d="M8 14 Q24 10 40 12 Q56 14 72 10" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M18 12 Q14 10 16 6 Q20 8 18 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M62 12 Q66 10 64 6 Q60 8 62 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <g transform="translate(40, 10)">
+        <circle cx="0" cy="-4" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="0" cy="0" r="1.5" fill="#c9973f"/>
+      </g>
+      <circle cx="24" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/>
+      <circle cx="56" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/>
+    </svg>
+    <svg class="haldi-side right" width="80" height="20" viewBox="0 0 80 20" fill="none">
+      <path d="M8 14 Q24 10 40 12 Q56 14 72 10" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M18 12 Q14 10 16 6 Q20 8 18 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M62 12 Q66 10 64 6 Q60 8 62 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <g transform="translate(40, 10)">
+        <circle cx="0" cy="-4" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="0" cy="0" r="1.5" fill="#c9973f"/>
+      </g>
+      <circle cx="24" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/>
+      <circle cx="56" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/>
+    </svg>
+
+    <h3 class="haldi-name">Haldi</h3>
+    <p class="haldi-ceremony-sub">— Ceremony —</p>
+    <div class="haldi-flourish">
+      <span class="line"></span>
+      <span class="ornament">❦</span>
+      <span class="line"></span>
+    </div>
+    <p class="haldi-time">Friday, 3<sup>rd</sup> July 2026</p>
+    <p class="haldi-time"><span class="dot">●</span> 11:00 AM onwards <span class="dot">●</span></p>
+    <p class="haldi-desc">Turmeric blessings, laughter &amp; sunshine</p>
+  </div>
+
+  <div class="couple-frame reveal d2">
+    <img class="couple-img" src="https://lh3.googleusercontent.com/d/1TYdAzD-gcN5Dxsw_4TnldvADQacN_TkK" alt="Gaurav and Palak" />
+    <div class="couple-caption" style="display:none;">
+      <p class="couple-caption-names">Gaurav &amp; Palak</p>
+      <p class="couple-caption-sub">Together · Forever · Always</p>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ═══════════════ PAGE 3B: MAYRA ═══════════════ -->
+<section class="page no-bouquet" id="mayra-photo">
+  <div class="haldi-block reveal d1">
+    <div class="haldi-inner-frame"></div>
+
+    <h3 class="haldi-name">Mayra</h3>
+    <p class="haldi-ceremony-sub">— Family Ceremony —</p>
+    <div class="haldi-flourish">
+      <span class="line"></span>
+      <span class="ornament">❦</span>
+      <span class="line"></span>
+    </div>
+    <p class="haldi-time event-date-line">Friday, 3<sup>rd</sup> July 2026</p>
+    <p class="haldi-time"><span class="dot">●</span> 2:00 PM <span class="dot">●</span></p>
+    <p class="haldi-desc">A cherished tradition of love,<br/>blessings &amp; family togetherness</p>
+  </div>
+
+  <div class="mayra-frame reveal d2">
+    <img class="mayra-img" src="https://lh3.googleusercontent.com/d/1BXVVhVsgsO9PPMbj3k898lIBT_k7VF2V" alt="Mayra ceremony celebration" />
+  </div>
+</section>
+
+<!-- ═══════════════ PAGE 4: SANGEET PHOTO ═══════════════ -->
+<section class="page no-bouquet" id="sangeet-photo">
+  <div class="sangeet-block reveal d1">
+    <div class="sangeet-inner-frame"></div>
+
+    <!-- Floral corner flourishes (warm gold tones for evening) -->
+    <svg class="sangeet-corner tl" viewBox="0 0 56 56" fill="none">
+      <path d="M4 28 Q4 14 14 8 Q24 4 38 6" stroke="#daa550" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.8"/>
+      <path d="M14 8 Q18 14 22 16" stroke="#daa550" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M10 18 Q6 16 8 12 Q12 14 10 18 Z" fill="#b89968" opacity="0.8"/>
+      <path d="M20 10 Q16 6 22 4 Q24 8 20 10 Z" fill="#b89968" opacity="0.8"/>
+      <path d="M28 10 Q26 4 32 4 Q32 8 28 10 Z" fill="#b89968" opacity="0.75"/>
+      <circle cx="22" cy="16" r="2" fill="#e8c47a" opacity="0.95"/>
+      <circle cx="22" cy="16" r="0.8" fill="#5a3554"/>
+      <g transform="translate(8, 8)">
+        <circle cx="0" cy="-3.5" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="3.3" cy="-1" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="2" cy="3" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="-2" cy="3" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="-3.3" cy="-1" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="0" cy="0" r="1.4" fill="#daa550"/>
+      </g>
+      <circle cx="36" cy="6" r="1.3" fill="#e8c47a" opacity="0.85"/>
+      <circle cx="38" cy="9" r="1" fill="#daa550" opacity="0.75"/>
+      <path d="M4 28 Q2 32 6 32 Q6 30 4 28 Z" fill="#b89968" opacity="0.7"/>
+    </svg>
+    <svg class="sangeet-corner tr" viewBox="0 0 56 56" fill="none">
+      <path d="M4 28 Q4 14 14 8 Q24 4 38 6" stroke="#daa550" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.8"/>
+      <path d="M14 8 Q18 14 22 16" stroke="#daa550" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M10 18 Q6 16 8 12 Q12 14 10 18 Z" fill="#b89968" opacity="0.8"/>
+      <path d="M20 10 Q16 6 22 4 Q24 8 20 10 Z" fill="#b89968" opacity="0.8"/>
+      <path d="M28 10 Q26 4 32 4 Q32 8 28 10 Z" fill="#b89968" opacity="0.75"/>
+      <circle cx="22" cy="16" r="2" fill="#e8c47a" opacity="0.95"/>
+      <circle cx="22" cy="16" r="0.8" fill="#5a3554"/>
+      <g transform="translate(8, 8)">
+        <circle cx="0" cy="-3.5" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="3.3" cy="-1" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="2" cy="3" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="-2" cy="3" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="-3.3" cy="-1" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="0" cy="0" r="1.4" fill="#daa550"/>
+      </g>
+      <circle cx="36" cy="6" r="1.3" fill="#e8c47a" opacity="0.85"/>
+      <circle cx="38" cy="9" r="1" fill="#daa550" opacity="0.75"/>
+      <path d="M4 28 Q2 32 6 32 Q6 30 4 28 Z" fill="#b89968" opacity="0.7"/>
+    </svg>
+    <svg class="sangeet-corner bl" viewBox="0 0 56 56" fill="none">
+      <path d="M4 28 Q4 14 14 8 Q24 4 38 6" stroke="#daa550" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.8"/>
+      <path d="M14 8 Q18 14 22 16" stroke="#daa550" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M10 18 Q6 16 8 12 Q12 14 10 18 Z" fill="#b89968" opacity="0.8"/>
+      <path d="M20 10 Q16 6 22 4 Q24 8 20 10 Z" fill="#b89968" opacity="0.8"/>
+      <path d="M28 10 Q26 4 32 4 Q32 8 28 10 Z" fill="#b89968" opacity="0.75"/>
+      <circle cx="22" cy="16" r="2" fill="#e8c47a" opacity="0.95"/>
+      <circle cx="22" cy="16" r="0.8" fill="#5a3554"/>
+      <g transform="translate(8, 8)">
+        <circle cx="0" cy="-3.5" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="3.3" cy="-1" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="2" cy="3" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="-2" cy="3" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="-3.3" cy="-1" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="0" cy="0" r="1.4" fill="#daa550"/>
+      </g>
+      <circle cx="36" cy="6" r="1.3" fill="#e8c47a" opacity="0.85"/>
+      <circle cx="38" cy="9" r="1" fill="#daa550" opacity="0.75"/>
+      <path d="M4 28 Q2 32 6 32 Q6 30 4 28 Z" fill="#b89968" opacity="0.7"/>
+    </svg>
+    <svg class="sangeet-corner br" viewBox="0 0 56 56" fill="none">
+      <path d="M4 28 Q4 14 14 8 Q24 4 38 6" stroke="#daa550" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.8"/>
+      <path d="M14 8 Q18 14 22 16" stroke="#daa550" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M10 18 Q6 16 8 12 Q12 14 10 18 Z" fill="#b89968" opacity="0.8"/>
+      <path d="M20 10 Q16 6 22 4 Q24 8 20 10 Z" fill="#b89968" opacity="0.8"/>
+      <path d="M28 10 Q26 4 32 4 Q32 8 28 10 Z" fill="#b89968" opacity="0.75"/>
+      <circle cx="22" cy="16" r="2" fill="#e8c47a" opacity="0.95"/>
+      <circle cx="22" cy="16" r="0.8" fill="#5a3554"/>
+      <g transform="translate(8, 8)">
+        <circle cx="0" cy="-3.5" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="3.3" cy="-1" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="2" cy="3" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="-2" cy="3" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="-3.3" cy="-1" r="2.2" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="0" cy="0" r="1.4" fill="#daa550"/>
+      </g>
+      <circle cx="36" cy="6" r="1.3" fill="#e8c47a" opacity="0.85"/>
+      <circle cx="38" cy="9" r="1" fill="#daa550" opacity="0.75"/>
+      <path d="M4 28 Q2 32 6 32 Q6 30 4 28 Z" fill="#b89968" opacity="0.7"/>
+    </svg>
+
+    <!-- Edge floral medallions -->
+    <svg class="sangeet-side top" width="80" height="20" viewBox="0 0 80 20" fill="none">
+      <path d="M8 14 Q24 10 40 12 Q56 14 72 10" stroke="#daa550" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M18 12 Q14 10 16 6 Q20 8 18 12 Z" fill="#b89968" opacity="0.8"/>
+      <path d="M62 12 Q66 10 64 6 Q60 8 62 12 Z" fill="#b89968" opacity="0.8"/>
+      <g transform="translate(40, 10)">
+        <circle cx="0" cy="-4" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="3.8" cy="-1.2" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="2.3" cy="3.3" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="-2.3" cy="3.3" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="-3.8" cy="-1.2" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="0" cy="0" r="1.5" fill="#daa550"/>
+      </g>
+      <circle cx="24" cy="11" r="1.2" fill="#e8c47a" opacity="0.85"/>
+      <circle cx="56" cy="11" r="1.2" fill="#e8c47a" opacity="0.85"/>
+    </svg>
+    <svg class="sangeet-side bottom" width="80" height="20" viewBox="0 0 80 20" fill="none">
+      <path d="M8 14 Q24 10 40 12 Q56 14 72 10" stroke="#daa550" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M18 12 Q14 10 16 6 Q20 8 18 12 Z" fill="#b89968" opacity="0.8"/>
+      <path d="M62 12 Q66 10 64 6 Q60 8 62 12 Z" fill="#b89968" opacity="0.8"/>
+      <g transform="translate(40, 10)">
+        <circle cx="0" cy="-4" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="3.8" cy="-1.2" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="2.3" cy="3.3" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="-2.3" cy="3.3" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="-3.8" cy="-1.2" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="0" cy="0" r="1.5" fill="#daa550"/>
+      </g>
+      <circle cx="24" cy="11" r="1.2" fill="#e8c47a" opacity="0.85"/>
+      <circle cx="56" cy="11" r="1.2" fill="#e8c47a" opacity="0.85"/>
+    </svg>
+    <svg class="sangeet-side left" width="80" height="20" viewBox="0 0 80 20" fill="none">
+      <path d="M8 14 Q24 10 40 12 Q56 14 72 10" stroke="#daa550" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M18 12 Q14 10 16 6 Q20 8 18 12 Z" fill="#b89968" opacity="0.8"/>
+      <path d="M62 12 Q66 10 64 6 Q60 8 62 12 Z" fill="#b89968" opacity="0.8"/>
+      <g transform="translate(40, 10)">
+        <circle cx="0" cy="-4" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="3.8" cy="-1.2" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="2.3" cy="3.3" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="-2.3" cy="3.3" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="-3.8" cy="-1.2" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="0" cy="0" r="1.5" fill="#daa550"/>
+      </g>
+      <circle cx="24" cy="11" r="1.2" fill="#e8c47a" opacity="0.85"/>
+      <circle cx="56" cy="11" r="1.2" fill="#e8c47a" opacity="0.85"/>
+    </svg>
+    <svg class="sangeet-side right" width="80" height="20" viewBox="0 0 80 20" fill="none">
+      <path d="M8 14 Q24 10 40 12 Q56 14 72 10" stroke="#daa550" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M18 12 Q14 10 16 6 Q20 8 18 12 Z" fill="#b89968" opacity="0.8"/>
+      <path d="M62 12 Q66 10 64 6 Q60 8 62 12 Z" fill="#b89968" opacity="0.8"/>
+      <g transform="translate(40, 10)">
+        <circle cx="0" cy="-4" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="3.8" cy="-1.2" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="2.3" cy="3.3" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="-2.3" cy="3.3" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="-3.8" cy="-1.2" r="2.5" fill="#f5e3b8" opacity="0.95"/>
+        <circle cx="0" cy="0" r="1.5" fill="#daa550"/>
+      </g>
+      <circle cx="24" cy="11" r="1.2" fill="#e8c47a" opacity="0.85"/>
+      <circle cx="56" cy="11" r="1.2" fill="#e8c47a" opacity="0.85"/>
+    </svg>
+
+    <h3 class="sangeet-name">Sangeet <span class="sangeet-slash">/</span> Engagement</h3>
+    <p class="sangeet-ceremony-sub">— Ceremony —</p>
+    <div class="sangeet-flourish">
+      <span class="line"></span>
+      <span class="ornament">❦</span>
+      <span class="line"></span>
+    </div>
+    <p class="sangeet-time">Friday, 3<sup>rd</sup> July 2026</p>
+    <p class="sangeet-time"><span class="dot">●</span> Engagement — 6:00 PM <span class="dot">●</span></p>
+    <p class="sangeet-time"><span class="dot">●</span> Sangeet — 7:00 PM onwards <span class="dot">●</span></p>
+    <p class="sangeet-desc">An evening of music, dance &amp; memories</p>
+  </div>
+
+  <div class="sangeet-frame reveal d2">
+    <img class="sangeet-img" src="https://lh3.googleusercontent.com/d/1qmOvz_IQT5epqOTh73EPi5j2wMe69VWD" alt="Gaurav and Palak at Sangeet" />
+  </div>
+</section>
+
+
+<!-- ═══════════════ PAGE 4A: WEDDING CEREMONY ═══════════════ -->
+<section class="page no-bouquet" id="wedding-photo">
+  <div class="haldi-block reveal d1">
+    <div class="haldi-inner-frame"></div>
+
+    <svg class="haldi-corner tl" viewBox="0 0 56 56" fill="none">
+      <path d="M4 28 Q4 14 14 8 Q24 4 38 6" stroke="#7a8f5a" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M14 8 Q18 14 22 16" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M10 18 Q6 16 8 12 Q12 14 10 18 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M20 10 Q16 6 22 4 Q24 8 20 10 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M28 10 Q26 4 32 4 Q32 8 28 10 Z" fill="#9bb37a" opacity="0.7"/>
+      <circle cx="22" cy="16" r="2" fill="#e8a4b8" opacity="0.85"/>
+      <circle cx="22" cy="16" r="0.8" fill="#c9973f"/>
+      <g transform="translate(8, 8)">
+        <circle cx="0" cy="-3.5" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="0" cy="0" r="1.4" fill="#c9973f"/>
+      </g>
+      <circle cx="36" cy="6" r="1.3" fill="#e8a4b8" opacity="0.8"/>
+      <circle cx="38" cy="9" r="1" fill="#d9a8c4" opacity="0.7"/>
+      <path d="M4 28 Q2 32 6 32 Q6 30 4 28 Z" fill="#9bb37a" opacity="0.65"/>
+    </svg>
+    <svg class="haldi-corner tr" viewBox="0 0 56 56" fill="none">
+      <path d="M4 28 Q4 14 14 8 Q24 4 38 6" stroke="#7a8f5a" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M14 8 Q18 14 22 16" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M10 18 Q6 16 8 12 Q12 14 10 18 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M20 10 Q16 6 22 4 Q24 8 20 10 Z" fill="#9bb37a" opacity="0.75"/>
+      <circle cx="22" cy="16" r="2" fill="#e8a4b8" opacity="0.85"/>
+      <circle cx="22" cy="16" r="0.8" fill="#c9973f"/>
+      <g transform="translate(8, 8)">
+        <circle cx="0" cy="-3.5" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="0" cy="0" r="1.4" fill="#c9973f"/>
+      </g>
+      <circle cx="36" cy="6" r="1.3" fill="#e8a4b8" opacity="0.8"/>
+      <circle cx="38" cy="9" r="1" fill="#d9a8c4" opacity="0.7"/>
+      <path d="M4 28 Q2 32 6 32 Q6 30 4 28 Z" fill="#9bb37a" opacity="0.65"/>
+    </svg>
+    <svg class="haldi-corner bl" viewBox="0 0 56 56" fill="none">
+      <path d="M4 28 Q4 14 14 8 Q24 4 38 6" stroke="#7a8f5a" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M14 8 Q18 14 22 16" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M10 18 Q6 16 8 12 Q12 14 10 18 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M20 10 Q16 6 22 4 Q24 8 20 10 Z" fill="#9bb37a" opacity="0.75"/>
+      <circle cx="22" cy="16" r="2" fill="#e8a4b8" opacity="0.85"/>
+      <circle cx="22" cy="16" r="0.8" fill="#c9973f"/>
+      <g transform="translate(8, 8)">
+        <circle cx="0" cy="-3.5" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="0" cy="0" r="1.4" fill="#c9973f"/>
+      </g>
+      <circle cx="36" cy="6" r="1.3" fill="#e8a4b8" opacity="0.8"/>
+      <circle cx="38" cy="9" r="1" fill="#d9a8c4" opacity="0.7"/>
+      <path d="M4 28 Q2 32 6 32 Q6 30 4 28 Z" fill="#9bb37a" opacity="0.65"/>
+    </svg>
+    <svg class="haldi-corner br" viewBox="0 0 56 56" fill="none">
+      <path d="M4 28 Q4 14 14 8 Q24 4 38 6" stroke="#7a8f5a" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M14 8 Q18 14 22 16" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M10 18 Q6 16 8 12 Q12 14 10 18 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M20 10 Q16 6 22 4 Q24 8 20 10 Z" fill="#9bb37a" opacity="0.75"/>
+      <circle cx="22" cy="16" r="2" fill="#e8a4b8" opacity="0.85"/>
+      <circle cx="22" cy="16" r="0.8" fill="#c9973f"/>
+      <g transform="translate(8, 8)">
+        <circle cx="0" cy="-3.5" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="0" cy="0" r="1.4" fill="#c9973f"/>
+      </g>
+      <circle cx="36" cy="6" r="1.3" fill="#e8a4b8" opacity="0.8"/>
+      <circle cx="38" cy="9" r="1" fill="#d9a8c4" opacity="0.7"/>
+      <path d="M4 28 Q2 32 6 32 Q6 30 4 28 Z" fill="#9bb37a" opacity="0.65"/>
+    </svg>
+
+    <svg class="haldi-side top" width="80" height="20" viewBox="0 0 80 20" fill="none">
+      <path d="M8 14 Q24 10 40 12 Q56 14 72 10" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M18 12 Q14 10 16 6 Q20 8 18 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M62 12 Q66 10 64 6 Q60 8 62 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <g transform="translate(40, 10)"><circle cx="0" cy="-4" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="-2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="-3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="0" cy="0" r="1.5" fill="#c9973f"/></g>
+      <circle cx="24" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/><circle cx="56" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/>
+    </svg>
+    <svg class="haldi-side bottom" width="80" height="20" viewBox="0 0 80 20" fill="none">
+      <path d="M8 14 Q24 10 40 12 Q56 14 72 10" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M18 12 Q14 10 16 6 Q20 8 18 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M62 12 Q66 10 64 6 Q60 8 62 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <g transform="translate(40, 10)"><circle cx="0" cy="-4" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="-2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="-3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="0" cy="0" r="1.5" fill="#c9973f"/></g>
+      <circle cx="24" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/><circle cx="56" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/>
+    </svg>
+    <svg class="haldi-side left" width="80" height="20" viewBox="0 0 80 20" fill="none">
+      <path d="M8 14 Q24 10 40 12 Q56 14 72 10" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M18 12 Q14 10 16 6 Q20 8 18 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M62 12 Q66 10 64 6 Q60 8 62 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <g transform="translate(40, 10)"><circle cx="0" cy="-4" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="-2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="-3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="0" cy="0" r="1.5" fill="#c9973f"/></g>
+      <circle cx="24" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/><circle cx="56" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/>
+    </svg>
+    <svg class="haldi-side right" width="80" height="20" viewBox="0 0 80 20" fill="none">
+      <path d="M8 14 Q24 10 40 12 Q56 14 72 10" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M18 12 Q14 10 16 6 Q20 8 18 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M62 12 Q66 10 64 6 Q60 8 62 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <g transform="translate(40, 10)"><circle cx="0" cy="-4" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="-2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="-3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="0" cy="0" r="1.5" fill="#c9973f"/></g>
+      <circle cx="24" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/><circle cx="56" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/>
+    </svg>
+
+    <h3 class="haldi-name">Varmala / Pheras</h3>
+    <p class="haldi-ceremony-sub">— Wedding Ceremony —</p>
+    <div class="haldi-flourish">
+      <span class="line"></span>
+      <span class="ornament">❦</span>
+      <span class="line"></span>
+    </div>
+    <p class="haldi-time event-date-line wedding-date-line">Saturday, 4<sup>th</sup> July 2026</p>
+    <p class="haldi-time"><span class="dot">●</span> Baraat Nikasi — 11:00 AM <span class="dot">●</span></p>
+    <p class="haldi-time"><span class="dot">●</span> Varmala — 1:00 PM <span class="dot">●</span></p>
+    <p class="haldi-time"><span class="dot">●</span> Phera — 2:00 PM <span class="dot">●</span></p>
+    <p class="haldi-desc">Sacred vows around the holy fire,<br/>witnessed by family &amp; friends</p>
+  </div>
+
+  <div class="couple-frame reveal d2">
+    <img class="couple-img" src="https://lh3.googleusercontent.com/d/1RwVfLQFnoAd2ZJ98oXLATRATGIa-ctTg" alt="Gaurav and Palak Wedding Ceremony" />
+  </div>
+</section>
+
+
+<!-- ═══════════════ PAGE 4B: RECEPTION ═══════════════ -->
+<section class="page no-bouquet" id="reception-photo">
+  <div class="haldi-block reveal d1">
+    <div class="haldi-inner-frame"></div>
+
+    <svg class="haldi-corner tl" viewBox="0 0 56 56" fill="none">
+      <path d="M4 28 Q4 14 14 8 Q24 4 38 6" stroke="#7a8f5a" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M14 8 Q18 14 22 16" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M10 18 Q6 16 8 12 Q12 14 10 18 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M20 10 Q16 6 22 4 Q24 8 20 10 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M28 10 Q26 4 32 4 Q32 8 28 10 Z" fill="#9bb37a" opacity="0.7"/>
+      <circle cx="22" cy="16" r="2" fill="#e8a4b8" opacity="0.85"/>
+      <circle cx="22" cy="16" r="0.8" fill="#c9973f"/>
+      <g transform="translate(8, 8)">
+        <circle cx="0" cy="-3.5" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="0" cy="0" r="1.4" fill="#c9973f"/>
+      </g>
+      <circle cx="36" cy="6" r="1.3" fill="#e8a4b8" opacity="0.8"/>
+      <circle cx="38" cy="9" r="1" fill="#d9a8c4" opacity="0.7"/>
+      <path d="M4 28 Q2 32 6 32 Q6 30 4 28 Z" fill="#9bb37a" opacity="0.65"/>
+    </svg>
+    <svg class="haldi-corner tr" viewBox="0 0 56 56" fill="none">
+      <path d="M4 28 Q4 14 14 8 Q24 4 38 6" stroke="#7a8f5a" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M14 8 Q18 14 22 16" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M10 18 Q6 16 8 12 Q12 14 10 18 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M20 10 Q16 6 22 4 Q24 8 20 10 Z" fill="#9bb37a" opacity="0.75"/>
+      <circle cx="22" cy="16" r="2" fill="#e8a4b8" opacity="0.85"/>
+      <circle cx="22" cy="16" r="0.8" fill="#c9973f"/>
+      <g transform="translate(8, 8)">
+        <circle cx="0" cy="-3.5" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="0" cy="0" r="1.4" fill="#c9973f"/>
+      </g>
+      <circle cx="36" cy="6" r="1.3" fill="#e8a4b8" opacity="0.8"/>
+      <circle cx="38" cy="9" r="1" fill="#d9a8c4" opacity="0.7"/>
+      <path d="M4 28 Q2 32 6 32 Q6 30 4 28 Z" fill="#9bb37a" opacity="0.65"/>
+    </svg>
+    <svg class="haldi-corner bl" viewBox="0 0 56 56" fill="none">
+      <path d="M4 28 Q4 14 14 8 Q24 4 38 6" stroke="#7a8f5a" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M14 8 Q18 14 22 16" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M10 18 Q6 16 8 12 Q12 14 10 18 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M20 10 Q16 6 22 4 Q24 8 20 10 Z" fill="#9bb37a" opacity="0.75"/>
+      <circle cx="22" cy="16" r="2" fill="#e8a4b8" opacity="0.85"/>
+      <circle cx="22" cy="16" r="0.8" fill="#c9973f"/>
+      <g transform="translate(8, 8)">
+        <circle cx="0" cy="-3.5" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="0" cy="0" r="1.4" fill="#c9973f"/>
+      </g>
+      <circle cx="36" cy="6" r="1.3" fill="#e8a4b8" opacity="0.8"/>
+      <circle cx="38" cy="9" r="1" fill="#d9a8c4" opacity="0.7"/>
+      <path d="M4 28 Q2 32 6 32 Q6 30 4 28 Z" fill="#9bb37a" opacity="0.65"/>
+    </svg>
+    <svg class="haldi-corner br" viewBox="0 0 56 56" fill="none">
+      <path d="M4 28 Q4 14 14 8 Q24 4 38 6" stroke="#7a8f5a" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M14 8 Q18 14 22 16" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M10 18 Q6 16 8 12 Q12 14 10 18 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M20 10 Q16 6 22 4 Q24 8 20 10 Z" fill="#9bb37a" opacity="0.75"/>
+      <circle cx="22" cy="16" r="2" fill="#e8a4b8" opacity="0.85"/>
+      <circle cx="22" cy="16" r="0.8" fill="#c9973f"/>
+      <g transform="translate(8, 8)">
+        <circle cx="0" cy="-3.5" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-2" cy="3" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="-3.3" cy="-1" r="2.2" fill="#f5c5d0" opacity="0.9"/>
+        <circle cx="0" cy="0" r="1.4" fill="#c9973f"/>
+      </g>
+      <circle cx="36" cy="6" r="1.3" fill="#e8a4b8" opacity="0.8"/>
+      <circle cx="38" cy="9" r="1" fill="#d9a8c4" opacity="0.7"/>
+      <path d="M4 28 Q2 32 6 32 Q6 30 4 28 Z" fill="#9bb37a" opacity="0.65"/>
+    </svg>
+
+    <svg class="haldi-side top" width="80" height="20" viewBox="0 0 80 20" fill="none">
+      <path d="M8 14 Q24 10 40 12 Q56 14 72 10" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M18 12 Q14 10 16 6 Q20 8 18 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M62 12 Q66 10 64 6 Q60 8 62 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <g transform="translate(40, 10)"><circle cx="0" cy="-4" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="-2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="-3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="0" cy="0" r="1.5" fill="#c9973f"/></g>
+      <circle cx="24" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/><circle cx="56" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/>
+    </svg>
+    <svg class="haldi-side bottom" width="80" height="20" viewBox="0 0 80 20" fill="none">
+      <path d="M8 14 Q24 10 40 12 Q56 14 72 10" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M18 12 Q14 10 16 6 Q20 8 18 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M62 12 Q66 10 64 6 Q60 8 62 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <g transform="translate(40, 10)"><circle cx="0" cy="-4" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="-2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="-3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="0" cy="0" r="1.5" fill="#c9973f"/></g>
+      <circle cx="24" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/><circle cx="56" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/>
+    </svg>
+    <svg class="haldi-side left" width="80" height="20" viewBox="0 0 80 20" fill="none">
+      <path d="M8 14 Q24 10 40 12 Q56 14 72 10" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M18 12 Q14 10 16 6 Q20 8 18 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M62 12 Q66 10 64 6 Q60 8 62 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <g transform="translate(40, 10)"><circle cx="0" cy="-4" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="-2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="-3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="0" cy="0" r="1.5" fill="#c9973f"/></g>
+      <circle cx="24" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/><circle cx="56" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/>
+    </svg>
+    <svg class="haldi-side right" width="80" height="20" viewBox="0 0 80 20" fill="none">
+      <path d="M8 14 Q24 10 40 12 Q56 14 72 10" stroke="#7a8f5a" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M18 12 Q14 10 16 6 Q20 8 18 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <path d="M62 12 Q66 10 64 6 Q60 8 62 12 Z" fill="#9bb37a" opacity="0.75"/>
+      <g transform="translate(40, 10)"><circle cx="0" cy="-4" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="-2.3" cy="3.3" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="-3.8" cy="-1.2" r="2.5" fill="#f5c5d0" opacity="0.9"/><circle cx="0" cy="0" r="1.5" fill="#c9973f"/></g>
+      <circle cx="24" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/><circle cx="56" cy="11" r="1.2" fill="#e8a4b8" opacity="0.8"/>
+    </svg>
+
+    <h3 class="haldi-name">Reception</h3>
+    
+    <div class="haldi-flourish">
+      <span class="line"></span>
+      <span class="ornament">❦</span>
+      <span class="line"></span>
+    </div>
+    <p class="haldi-time">Saturday, 4<sup>th</sup> July 2026</p>
+    <p class="haldi-time"><span class="dot">●</span> 7:00 PM onwards <span class="dot">●</span></p>
+    <p class="haldi-desc">An evening of celebration,<br/>love &amp; togetherness</p>
+  </div>
+
+  <div class="couple-frame reveal d2">
+    <img class="couple-img" src="https://lh3.googleusercontent.com/d/1Hi4KpDnz3lgBEZOg8SGCqiggZGviMqr7" alt="Gaurav and Palak Reception" />
+  </div>
+</section>
+
+<!-- ═══════════════ PAGE 5: VENUE ═══════════════ -->
+<section class="page" id="venue">
+  <div class="reveal">
+    <p class="section-label">The Venue</p>
+    <h2 class="section-title">Where Magic <em>Unfolds</em></h2>
+  </div>
+
+  <div class="venue-box reveal d1">
+    <h3 class="venue-name">Anantya Greens</h3>
+    <p class="venue-location">📍 Durg, Chhattisgarh</p>
+    <p class="venue-desc">
+      Nestled amidst lush greenery and timeless beauty,<br/>
+      Anantya Greens sets the perfect stage<br/>
+      for a celebration as grand as our love.
+    </p>
+
+    <div class="divider" style="margin: 1rem auto;">
+      <span class="divider-line"></span>
+      <span class="divider-icon" style="font-size:0.9rem;">✦</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <a class="venue-map-link" href="https://www.google.com/maps/place/Anantya+Greens/@21.1589827,81.2431571,17z/data=!3m1!4b1!4m6!3m5!1s0x3a293f77cf15a847:0x90f5192480cce6ff!8m2!3d21.1589827!4d81.245732!16s%2Fg%2F11h69hv0c5?entry=tts&amp;shorturl=1" target="_blank" rel="noopener noreferrer" aria-label="Open Anantya Greens in Google Maps">
+      <div class="venue-map">
+        <span class="map-pin">📍</span>
+        <span>Anantya Greens, Durg, Chhattisgarh</span>
+        <span style="font-size:0.7rem; opacity:0.7;">All ceremonies will be held here</span>
+        <span class="map-action">Open Google Maps →</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+
+
+
+
+
+<!-- ═══════════════ PAGE 6B: FAMILY INVITES ═══════════════ -->
+<section class="page" id="family-invites">
+  <div class="reveal">
+    <p class="section-label">A Joyful Welcome</p>
+    <h2 class="section-title">Singhal Family <em>Invites You</em></h2>
+    <p class="family-invites-subtitle">With Immense Joy</p>
+    <div class="family-invites-flourish">
+      <span class="line"></span>
+      <span class="icon">❦</span>
+      <span class="line"></span>
+    </div>
+    <p class="family-invites-intro">
+      With open hearts and great happiness,<br/>
+      we warmly welcome you to join our celebration<br/>
+      and bless the couple with your gracious presence.
+    </p>
+  </div>
+
+  <div class="family-invites-grid reveal d1">
+    <div class="family-group-card">
+      <h3 class="family-invites-heading">Family</h3>
+      <ul class="family-invites-list">
+        <li>Smt. Meena - Vinod Singhal</li>
+        <li>Smt. Reena - Pramod Singhal</li>
+        <li>Smt. Sangeeta - Rajesh Singhal</li>
+        <li>Mr. Jayant Singhal</li>
+        <li>Mr. Sourabh Singhal</li>
+        <li>Mr. Ankit Singhal</li>
+      </ul>
+    </div>
+
+    <div class="family-group-card">
+      <h3 class="family-invites-heading">Special Request</h3>
+      <ul class="family-invites-list compact">
+        <li>Smt. Guddi - Murari Ji</li>
+        <li>Smt. Lt. Munya - Subhash Ji Goyal</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="family-invites-ending reveal d2">
+    <div class="family-invites-art">
+      <img src="https://lh3.googleusercontent.com/d/1keAWvikiHhkPOjVTi739Mu_O7fWx6X9L" alt="Family welcoming guests with namaste" />
+    </div>
+    <p class="family-invites-caption">Your presence will make our celebration complete</p>
+    <a href="#cover" class="submit-btn final-back-top">↑ Back to Top</a>
+  </div>
+</section>
+
+
+
+
+
+<script>
+  // ─── PETALS ───
+  (function () {
+    const container = document.getElementById('petals');
+    const colors = ['#f5b8c4', '#f9c8a8', '#d9c5f0', '#fce8d5', '#e8c47a'];
+    for (let i = 0; i < 28; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      const size = Math.random() * 14 + 8;
+      p.style.cssText = `
+        width:${size}px; height:${size * 0.55}px;
+        left:${Math.random() * 100}%;
+        top:${Math.random() * -20}%;
+        background:${colors[Math.floor(Math.random() * colors.length)]};
+        animation-duration:${Math.random() * 12 + 10}s;
+        animation-delay:${Math.random() * 10}s;
+        border-radius: ${Math.random() > 0.5 ? '50% 0 50% 0' : '0 50% 0 50%'};
+      `;
+      container.appendChild(p);
+    }
+  })();
+
+  // ─── COUNTDOWN ───
+  const weddingDate = new Date('2026-07-03T10:00:00').getTime();
+  function updateCountdown() {
+    const now = Date.now();
+    const diff = weddingDate - now;
+    if (diff < 0) {
+      document.getElementById('countdown').innerHTML =
+        '<div style="grid-column: 1/-1; text-align:center; padding: 1.5rem; font-family: \'Cormorant Garamond\', serif; font-style: italic; font-size: 1.3rem; color: var(--deep);">The celebration has begun! ✨</div>';
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('days').textContent = d;
+    document.getElementById('hours').textContent = String(h).padStart(2, '0');
+    document.getElementById('mins').textContent = String(m).padStart(2, '0');
+    document.getElementById('secs').textContent = String(s).padStart(2, '0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // ─── SCROLL REVEAL ───
+  const reveals = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  reveals.forEach(el => revealObserver.observe(el));
+
+  // ─── PAGE NAV ACTIVE STATE ───
+  const navDots = document.querySelectorAll('.page-nav a');
+  const pages = document.querySelectorAll('.page');
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navDots.forEach(d => d.classList.toggle('active', d.dataset.target === id));
+      }
+    });
+  }, { threshold: 0.5 });
+  pages.forEach(p => navObserver.observe(p));
+
+  // ─── BOTTOM BOUQUET STRIP (inject into every page) ───
+  document.querySelectorAll('.page:not(.no-bouquet)').forEach(page => {
+    const strip = document.createElement('div');
+    strip.className = 'bouquet-strip';
+    strip.innerHTML = `
+      <div class="bouquet-instance b1"></div>
+      <div class="bouquet-instance b2"></div>
+      <div class="bouquet-instance b3"></div>
+      <div class="bouquet-instance b4"></div>
+      <div class="bouquet-instance b5"></div>
+    `;
+    page.appendChild(strip);
+  });
+
+  // ─── SMOOTH SCROLL ───
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+
+  function submitRSVP(e) {
+    e.preventDefault();
+    const name = document.getElementById('rsvp-name').value.trim() || 'friend';
+    document.getElementById('thankName').textContent = name;
+    document.getElementById('rsvpForm').style.display = 'none';
+    document.getElementById('thankYou').classList.add('show');
+    // To wire to a real backend: post form data to Google Forms / Formspree here
+  }
+</script>
+
+
+<script>
+  // Music starts when the guest opens the invitation.
+  // This avoids a separate music button while still satisfying browser audio policies.
+  (function () {
+    const VIDEO_ID = "xKVWIBmCosI";
+    const START_AT = 27;
+    let musicStarted = false;
+
+    function startMusicFrame() {
+      if (musicStarted) return;
+      musicStarted = true;
+
+      const host = document.getElementById('musicFrameHost');
+      if (!host) return;
+
+      const iframe = document.createElement('iframe');
+      iframe.width = '1';
+      iframe.height = '1';
+      iframe.allow = 'autoplay; encrypted-media';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.style.border = '0';
+      iframe.src =
+        'https://www.youtube.com/embed/' + VIDEO_ID +
+        '?autoplay=1' +
+        '&start=' + START_AT +
+        '&loop=1' +
+        '&playlist=' + VIDEO_ID +
+        '&controls=0' +
+        '&disablekb=1' +
+        '&fs=0' +
+        '&iv_load_policy=3' +
+        '&modestbranding=1' +
+        '&playsinline=1' +
+        '&rel=0';
+
+      host.innerHTML = '';
+      host.appendChild(iframe);
+    }
+
+    function openInvitation() {
+      startMusicFrame();
+
+      const overlay = document.getElementById('entryOverlay');
+      if (overlay) {
+        overlay.classList.add('hide');
+        setTimeout(function () {
+          overlay.remove();
+        }, 850);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const btn = document.getElementById('openInviteBtn');
+      const overlay = document.getElementById('entryOverlay');
+
+      if (btn) btn.addEventListener('click', openInvitation, { once: true });
+
+      // Allow tapping anywhere on the opening card/screen too.
+      if (overlay) {
+        overlay.addEventListener('click', function (event) {
+          if (event.target && event.target.closest && event.target.closest('#openInviteBtn')) return;
+          openInvitation();
+        }, { once: true });
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
